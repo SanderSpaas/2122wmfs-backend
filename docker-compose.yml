@@ -19,7 +19,7 @@ services:
      - "./docker/mysql-data:/var/lib/mysql"
     environment:
      - MYSQL_ROOT_PASSWORD=Azerty123
-     - MYSQL_DATABASE=laravel-project
+     - MYSQL_DATABASE=project-gotcha
   myadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
