@@ -30,12 +30,8 @@ Route::post('/api/login', function (Request $request) {
     }
     return response(['message' => 'The provided credentials do not match our records.'], 401);
 });
-// Route::get('/api/user/', function (Request $request) {
-//     $credentials = $request->only('email');
-//     if (Auth::attempt($credentials)) {
 
-//     }
-//     return response(['message' => 'The provided credentials do not match our records.'], 401);
-// });
-
+Route::middleware('auth:sanctum')->get('api/secret', function (Request $request) {
+    return $request->user();
+});
 require __DIR__.'/auth.php';
