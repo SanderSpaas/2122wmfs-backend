@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(20)->create();
         DB::table('users')->insert([
             'name' => 'sander',
             'email' => 'sander.spaas@odisee.be',
@@ -34,5 +34,7 @@ class DatabaseSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
+
+        \App\Models\Game::factory(10)->create();
     }
 }
