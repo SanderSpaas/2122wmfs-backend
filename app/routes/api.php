@@ -41,8 +41,9 @@ Route::group(
         Route::get('api/user', function (Request $request) {
             return $request->user();
         });
-        Route::get('/games/{id}', [GameController::class, "game"])->where('id', '[0-9]+');
+        Route::get('/games/{id}', 'App\Http\Controllers\GameController@game')->where('id', '[0-9]+');
         Route::get('/games/{id}/{playerId}', 'App\Http\Controllers\GameController@player')->where('id', '[0-9]+')->where('playerId', '[0-9]+');
+        Route::post('/player/{playerId}', 'App\Http\Controllers\GameController@killPlayer')->where('playerId', '[0-9]+');
         Route::get('/games', 'App\Http\Controllers\GameController@games');
         Route::get('/games/{id}/start', 'App\Http\Controllers\GameController@start')->where('id', '[0-9]+')->middleware('can:isAdmin');
     }

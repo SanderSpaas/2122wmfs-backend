@@ -34,6 +34,23 @@ class GameController extends Controller
             ], 404);
         }
     }
+    public function killPlayer($playerId)
+    {
+        $killer = Player::where('target_id', $playerId)->get();
+        $killer = $killer[0];
+        //huidige speler +1 kill geven
+        $killer->kills = $killer->kills+1;
+        //zijn target op dood gaan zetten
+        $target = Player::where('id', $playerId)->get();
+        $target = $target[0];
+        $target->dead = true;
+
+        //het target van de dode aan de hitman geven
+        $killer->target_id = $target->target_id;
+        $target->target_id = null;
+        $killer->save();
+        $target->save();
+    }
     public function start($gameId)
     {
         //alle spelers van deze game gaan vastpakken
@@ -48,11 +65,10 @@ class GameController extends Controller
 
         //alle spelers gaan vastpakken
         foreach ($players as $player) {
-            if($player->id !== $idArray[0])
-            {
+            if ($player->id !== $idArray[0]) {
                 $player->target_id = $idArray[0];
                 unset($idArray[0]);
-            }else{
+            } else {
                 $player->target_id = $idArray[1];
                 unset($idArray[1]);
             }
