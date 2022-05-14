@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Player extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +21,7 @@ class Player extends Model
         'won',
     ];
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
@@ -31,5 +32,9 @@ class Player extends Model
     public function target()
     {
         return $this->hasMany(Player::class);
+    }
+    public function game()
+    {
+        return $this->belongsTo(Game::class);
     }
 }

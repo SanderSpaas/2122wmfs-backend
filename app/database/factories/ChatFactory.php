@@ -14,7 +14,9 @@ class ChatFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'send_at' => $this->faker->dateTime(),
+            'message' => $this->faker->words($nb = 5, $asText = true),
+            'game_id' => rand(1, 10)
         ];
     }
 }

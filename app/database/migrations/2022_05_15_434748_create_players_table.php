@@ -11,10 +11,11 @@ class CreatePlayersTable extends Migration
         Schema::create('players', function ($table) {
 
             $table->id();
+            $table->string('alias');
             $table->integer('kills',)->nullable();
             $table->unsignedBigInteger('game_id',);
             $table->unsignedBigInteger('user_id',);
-            $table->unsignedBigInteger('target_id',);
+            $table->unsignedBigInteger('target_id',)->nullable();
             $table->unsignedBigInteger('chat_id',);
             $table->boolean('dead',)->nullable();
             $table->boolean('won',)->nullable();

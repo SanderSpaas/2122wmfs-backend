@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'sander',
             'email' => 'sander.spaas@odisee.be',
             'password' => Hash::make('Azerty123'),
+            'role' => 'admin',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
@@ -36,5 +37,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Game::factory(10)->create();
+        \App\Models\Chat::factory(50)->create();
+        \App\Models\Player::factory(22)->create();
+
     }
 }

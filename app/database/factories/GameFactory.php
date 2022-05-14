@@ -17,6 +17,7 @@ class GameFactory extends Factory
         return [
             'name' => $this->faker->unique()->word,
             'murder_method' => $this->faker->words($nb = 3, $asText = true),
+            'status' => $this->faker->randomElement(['Active', 'Inactive']),
         ];
     }
 }

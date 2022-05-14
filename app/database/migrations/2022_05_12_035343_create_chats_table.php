@@ -13,7 +13,6 @@ class CreateChatsTable extends Migration
             $table->id();
             $table->datetime('send_at')->nullable();
             $table->string('message', 250)->nullable();
-            $table->string('chatcol', 45)->nullable();
             $table->unsignedBigInteger('game_id')->onDelete('cascade');
         });
 

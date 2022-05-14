@@ -19,6 +19,7 @@ class Game extends Model
     protected $fillable = [
         'name',
         'murder_method',
+        'status',
     ];
     public function players()
     {
