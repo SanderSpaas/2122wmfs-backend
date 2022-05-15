@@ -16,6 +16,9 @@ class Player extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'alias',
+        'game_id',
+        'user_id',
         'kills',
         'dead',
         'won',

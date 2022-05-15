@@ -16,7 +16,8 @@ class ChatFactory extends Factory
         return [
             'send_at' => $this->faker->dateTime(),
             'message' => $this->faker->words($nb = 5, $asText = true),
-            'game_id' => rand(1, 10)
+            'game_id' => 1,
+            'player_id' => rand(1, 22)
         ];
     }
 }

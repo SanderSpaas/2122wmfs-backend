@@ -18,7 +18,6 @@ class PlayerFactory extends Factory
             'alias' => $this->faker->name(),
             'game_id' => 1,
             'user_id' => $number++,
-            'chat_id' => rand(1, 50),
         ];
     }
 }

@@ -14,11 +14,13 @@ class CreateChatsTable extends Migration
             $table->datetime('send_at')->nullable();
             $table->string('message', 250)->nullable();
             $table->unsignedBigInteger('game_id')->onDelete('cascade');
+            $table->unsignedBigInteger('player_id')->onDelete('cascade');
         });
 
         Schema::table('chats', function (Blueprint $table) {
 
             $table->foreign('game_id')->references('id')->on('games');
+            $table->foreign('player_id')->references('id')->on('players');
         });
     }
 

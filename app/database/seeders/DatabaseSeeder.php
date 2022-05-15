@@ -37,8 +37,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Game::factory(10)->create();
-        \App\Models\Chat::factory(50)->create();
         \App\Models\Player::factory(22)->create();
+        \App\Models\Chat::factory(50)->create();
 
     }
 }
