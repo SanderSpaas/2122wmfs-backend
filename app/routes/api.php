@@ -20,20 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login', function (Request $request) {
-    $credentials = $request->only('email', 'password');
-    if (Auth::attempt($credentials)) {
-        return response(['message' => 'The user has been authenticated successfully'], 200);
-    }
-    return response(['message' => 'The provided credentials do not match our records.'], 401);
-});
-
- Route::post('/logout', function (Request $request) {
-            Auth::guard('web')->logout();
-            $request->session()->invalidate();
-
-            $request->session()->regenerateToken();
-        });
 Route::group(
     ['middleware' => ['auth:sanctum']],
     function () {
@@ -41,11 +27,18 @@ Route::group(
         Route::get('api/user', function (Request $request) {
             return $request->user();
         });
-        Route::get('/games/{id}', 'App\Http\Controllers\GameController@game')->where('id', '[0-9]+');
+        // Route::get('/games/{id}', 'App\Http\Controllers\GameController@game')->where('id', '[0-9]+');
         Route::post('/games/{id}', 'App\Http\Controllers\GameController@addPlayer')->where('id', '[0-9]+');
         Route::get('/games/{id}', 'App\Http\Controllers\GameController@player')->where('id', '[0-9]+');
+        Route::get('/games/{id}/target', 'App\Http\Controllers\GameController@target')->where('id', '[0-9]+');
+
+
+        //gaat een speler gaan uitschakelen en zijn target aan de moordenaar gaan geven
         Route::post('/player', 'App\Http\Controllers\GameController@killPlayer');
+
+        //geeft alle games in de database weer samen met de spelers in die game
         Route::get('/games', 'App\Http\Controllers\GameController@games');
+        //gaat alle spelers in die game een target gaan geven, Aleen een ADMIN heeft toegang tot deze route
         Route::get('/games/{id}/start', 'App\Http\Controllers\GameController@start')->where('id', '[0-9]+')->middleware('can:isAdmin');
     }
 );

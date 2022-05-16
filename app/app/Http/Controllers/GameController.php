@@ -13,7 +13,7 @@ class GameController extends Controller
 {
     public function games()
     {
-        return ['data' => Game::all()];
+        return ['data' => Game::with('players')->get()];
     }
     public function game($gameId)
     {
@@ -25,13 +25,23 @@ class GameController extends Controller
             ], 404);
         }
     }
-    public function player($gameId, $playerId)
+    public function player($gameId)
     {
-        if ($data = Player::find($gameId)->with('Game')->with('User')->where('players.id', $playerId)->get()) {
+        if ($data = Player::find($gameId)->with('Game')->with('User')->where('players.id', auth()->user()->id)->with('target')->get()) {
             return ['data' => $data];
         } else {
             return response()->json([
-                'message' => 'No player or game found with the IDs: ' . $gameId . $playerId
+                'message' => 'No player or game found with the IDs: ' . $gameId . auth()->user()->id
+            ], 404);
+        }
+    }
+    public function target($gameId)
+    {
+        if ($data = Player::find($gameId)->with('Game')->with('target')->get()) {
+            return ['data' => $data];
+        } else {
+            return response()->json([
+                'message' => 'No player or game found with the IDs: ' . $gameId . auth()->user()->id
             ], 404);
         }
     }

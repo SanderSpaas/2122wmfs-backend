@@ -16,8 +16,8 @@ class CreatePlayersTable extends Migration
             $table->unsignedBigInteger('game_id',);
             $table->unsignedBigInteger('user_id',);
             $table->unsignedBigInteger('target_id',)->nullable();
-            $table->boolean('dead',)->nullable();
-            $table->boolean('won',)->nullable();
+            $table->boolean('dead',);
+            $table->boolean('won',);
         });
 
         Schema::table('players', function (Blueprint $table) {
