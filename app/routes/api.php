@@ -40,5 +40,10 @@ Route::group(
         Route::get('/games', 'App\Http\Controllers\GameController@games');
         //gaat alle spelers in die game een target gaan geven, Aleen een ADMIN heeft toegang tot deze route
         Route::get('/games/{id}/start', 'App\Http\Controllers\GameController@start')->where('id', '[0-9]+')->middleware('can:isAdmin');
+
+        //gaat alle messages van die game gaan weergeven + de speler die het heeft verstuurd
+        Route::get('/games/{id}/chat', 'App\Http\Controllers\GameController@chat')->where('id', '[0-9]+');
+        //bericht gaan toevoegen in de chat colomend
+        Route::post('/games/{id}/chat', 'App\Http\Controllers\GameController@addChat')->where('id', '[0-9]+');
     }
 );

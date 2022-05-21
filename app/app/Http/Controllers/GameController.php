@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Models\Game;
 use App\Models\Player;
 use App\Models\User;
+use App\Models\Chat;
 
 class GameController extends Controller
 {
@@ -102,25 +103,29 @@ class GameController extends Controller
 
     public function addPlayer(Request $request, $gameId)
     {
+        //kijken of de game bestaat
         if (!Game::where('id', '=', $gameId)->exists()) {
             return response()->json([
                 'message' => 'That game does not exist: ' . $gameId
             ], 404);
         }
-        if (Player::where('id', '=', auth()->user()->id)->where('game_id', $gameId)->exists()) {
+        //gaan kijken of die user al een player heeft in de game if ja -> zeggen ge moogt er ni meer dan ene hebben
+        if (Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->exists()) {
             return response()->json([
                 'message' => 'You are not allowed to have multiple players in the game from the same user game id: ' . $gameId . 'user id: ' .  auth()->user()->id
             ], 401);
         }
+        //kijken of de game bezig is of niet!!!!!
         //TODO DIT NOG GAAN FIXEN
         // if (Game::find($gameId)->where('end_time', '>=', Carbon::now())->exist()) {
         //     return response()->json([
         //         'message' => 'That game has already ended: ' . $gameId
         //     ], 405);
-        // } 
+        // }  
+        //zoniet word hun alias die ze hebben opgegeven toegevoegd en word hun player in de db gezet
         else {
             $request->validate([
-                'alias' => 'required|unique:players|max:125',
+                'alias' => 'required|max:125',
             ]);
             $player = new Player();
             $player->alias = $request->alias;
@@ -135,8 +140,40 @@ class GameController extends Controller
 
     //user vastpakken
 
-    //gaan kijken of die user al een player heeft in de game if ja -> zeggen ge moogt er ni meer dan ene hebben
+    //chat gaan tonen van die game + spelers die ze verstuurd hebben
+    public function chat($gameId)
+    {
+        if ($data = Chat::where('game_id', $gameId)->with('Player')->orderBy("send_at")->get()) {
+            return ['data' => $data];
+        } else {
+            return response()->json([
+                'message' => 'No game found with the ID: ' . $gameId
+            ], 404);
+        }
+    }
+    public function addChat(Request $request, $gameId)
+    {
+        //kijken of de game bestaat
+        if (!Game::where('id', '=', $gameId)->exists()) {
+            return response()->json([
+                'message' => 'That game does not exist: ' . $gameId
+            ], 404);
+        }
+        //todo kijken of spel nog bezig is?
 
-    //zoniet word hun alias die ze hebben opgegeven toegevoegd en word hun player in de db gezet
+        //kijken of speler in game zit
+        if (Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->exists()) {
+            $request->validate([
+                'message' => 'required|max:250',
+            ]);
+            $chat = new Chat();
+            $chat->message = $request->message;
+            $chat->send_at = date('Y-m-d H:i:s');
+            $chat->game_id = $gameId;
+            $chat->player_id = Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->pluck('id')[0];
+            $chat->save();
 
+            return response()->json(['message' => 'The chat message: ' . $request->message . ' has been created'], 201);
+        }
+    }
 }

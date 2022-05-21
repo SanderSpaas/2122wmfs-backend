@@ -30,14 +30,18 @@ class Player extends Model
     }
     public function hitman()
     {
-        return $this->belongsTo(Player::class);
+        return $this->belongsTo(Player::class,'id');
     }
     public function target()
     {
-        return $this->hasMany(Player::class);
+        return $this->hasMany(Player::class, 'id');
     }
     public function game()
     {
         return $this->belongsTo(Game::class);
+    }
+    public function chats()
+    {
+        return $this->hasMany(Chat::class, 'id');
     }
 }

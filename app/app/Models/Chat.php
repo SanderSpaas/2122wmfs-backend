@@ -15,19 +15,10 @@ class Chat extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
+        'message',
+        'send_at',
+        'game_id',
+        'player_id'
     ];
 
     /**
@@ -39,9 +30,9 @@ class Chat extends Model
         'send_at-' => 'datetime',
     ];
 
-    public function players()
+    public function player()
     {
-        return $this->hasMany(Player::class);
+        return $this->belongsTo(Player::class);
     }
     public function games()
     {
