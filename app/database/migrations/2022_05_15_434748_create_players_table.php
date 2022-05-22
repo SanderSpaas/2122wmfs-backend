@@ -15,6 +15,7 @@ class CreatePlayersTable extends Migration
             $table->integer('kills',)->nullable();
             $table->unsignedBigInteger('game_id',);
             $table->unsignedBigInteger('user_id',);
+            $table->unsignedBigInteger('killer_id',)->nullable();
             $table->unsignedBigInteger('target_id',)->nullable();
             $table->boolean('dead',);
             $table->boolean('won',);
@@ -24,6 +25,7 @@ class CreatePlayersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('game_id')->references('id')->on('games');
             $table->foreign('target_id')->references('id')->on('players');
+            $table->foreign('killer_id')->references('id')->on('players');
         });
 
     }

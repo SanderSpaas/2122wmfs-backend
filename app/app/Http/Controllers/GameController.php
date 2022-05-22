@@ -16,9 +16,10 @@ class GameController extends Controller
     {
         return ['data' => Game::with('players')->get()];
     }
+    
     public function game($gameId)
     {
-        if ($game = Game::find($gameId)->with('Player')) {
+        if ($game = Game::find($gameId)->with('Players')->first()) {
             return ['data' => $game];
         } else {
             return response()->json([
@@ -26,23 +27,38 @@ class GameController extends Controller
             ], 404);
         }
     }
+    //geeft info over de player en de user weer
     public function player($gameId)
     {
-        if ($data = Player::find($gameId)->with('Game')->with('User')->where('players.id', auth()->user()->id)->with('target')->get()) {
+        if ($data = Player::find($gameId)->with('Game')->with('User')->where('players.id', auth()->user()->id)->first()) {
             return ['data' => $data];
         } else {
-            return response()->json([
+            return response()->json([   
                 'message' => 'No player or game found with the IDs: ' . $gameId . auth()->user()->id
             ], 404);
         }
     }
+     //geeft info over de huigide user zijn target weer: player + user info van die game
     public function target($gameId)
     {
-        if ($data = Player::find($gameId)->with('Game')->with('target')->get()) {
+        $targetID = Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->pluck('target_id')[0];
+        if ($data = Player::find($gameId)->with('Game')->with('User')->where('players.id', $targetID)->first()) {
             return ['data' => $data];
         } else {
             return response()->json([
-                'message' => 'No player or game found with the IDs: ' . $gameId . auth()->user()->id
+                'message' => 'No target or game found with the IDs: ' . $gameId . $targetID
+            ], 404);
+        }
+    }
+    //geeft info over de huigide user zijn killer weer: player + user info van die game
+    public function killer($gameId)
+    {
+        $killerId = Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->pluck('killer_id')[0];
+        if ($data = Player::find($gameId)->with('Game')->with('User')->where('players.id', $killerId)->first()) {
+            return ['data' => $data];
+        } else {
+            return response()->json([
+                'message' => 'No killer or game found with the IDs: ' . $gameId . $killerId
             ], 404);
         }
     }
@@ -61,6 +77,7 @@ class GameController extends Controller
         //het target van de dode aan de hitman geven
         $killer->target_id = $target->target_id;
         $target->target_id = null;
+        $target->killer_id = $killer->id;
         $killer->save();
         $target->save();
     }
@@ -90,7 +107,6 @@ class GameController extends Controller
                 $player->target_id = $idArray[1];
                 unset($idArray[1]);
             }
-
             //array gaan herindexeren anders werkt het niet
             $idArray = array_values($idArray);
             $player->save();

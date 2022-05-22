@@ -19,6 +19,7 @@ class Player extends Model
         'alias',
         'game_id',
         'user_id',
+        'killer_id',
         'kills',
         'dead',
         'won',
@@ -28,7 +29,7 @@ class Player extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function hitman()
+    public function killer()
     {
         return $this->belongsTo(Player::class,'id');
     }
