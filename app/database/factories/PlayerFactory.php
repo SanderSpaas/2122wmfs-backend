@@ -19,7 +19,8 @@ class PlayerFactory extends Factory
             'game_id' => 1,
             'user_id' => $number++,
             'dead' => 0,
-            'won' => 0
+            'won' => 0,
+            'kills' => 0,
         ];
     }
 }
