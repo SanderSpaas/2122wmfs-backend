@@ -12,13 +12,13 @@ class CreatePlayersTable extends Migration
 
             $table->id();
             $table->string('alias');
-            $table->integer('kills',)->nullable();
+            $table->integer('kills',)->default('0');
             $table->unsignedBigInteger('game_id',);
             $table->unsignedBigInteger('user_id',);
             $table->unsignedBigInteger('killer_id',)->nullable();
             $table->unsignedBigInteger('target_id',)->nullable();
-            $table->boolean('dead',);
-            $table->boolean('won',);
+            $table->boolean('dead',)->default('0');
+            $table->boolean('won',)->default('0');
         });
 
         Schema::table('players', function (Blueprint $table) {
