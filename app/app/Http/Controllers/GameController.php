@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Models\Game;
 use App\Models\Player;
@@ -16,7 +18,7 @@ class GameController extends Controller
     {
         return ['data' => Game::with('players')->get()];
     }
-    
+
     public function game($gameId)
     {
         if ($game = Game::with('Players')->findOrFail($gameId)) {
@@ -26,11 +28,11 @@ class GameController extends Controller
     //geeft info over de player en de user weer
     public function player($gameId)
     {
-        if ($data = Player::where('game_id', $gameId)->where('user_id', auth()->user()->id)->with('User','Game')->firstOrFail()) {
+        if ($data = Player::where('game_id', $gameId)->where('user_id', auth()->user()->id)->with('User', 'Game')->firstOrFail()) {
             return ['data' => $data];
         }
     }
-     //geeft info over de huigide user zijn target weer: player + user info van die game
+    //geeft info over de huigide user zijn target weer: player + user info van die game
     public function target($gameId)
     {
         $targetID = Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->pluck('target_id')[0];
@@ -104,6 +106,22 @@ class GameController extends Controller
         ], 200);
     }
 
+    public function addUser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|unique:users|max:125',
+            'password' => ['required', Password::defaults()],
+            'email' => 'required|email|unique:users'
+        ]);
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json(['message' => 'The user: ' . $request->name . ' has been created'], 201);
+    }
+
     public function addPlayer(Request $request, $gameId)
     {
         //kijken of de game bestaat
@@ -139,9 +157,6 @@ class GameController extends Controller
             return response()->json(['message' => 'The player: ' . $request->alias . ' has been created'], 201);
         }
     }
-    //todo een post route waarmee een user kan gaan meedoen bij een game
-
-    //user vastpakken
 
     //chat gaan tonen van die game + spelers die ze verstuurd hebben
     public function chat($gameId)

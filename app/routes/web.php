@@ -40,6 +40,7 @@ Route::post('/api/logout', function (Request $request) {
     return response(['message' => 'The user has been logged out successfully'], 200);
 });
 
-
+//gaat user gaan toevoegen in de database
+Route::post('/api/user/add', 'App\Http\Controllers\GameController@addUser');
 
 require __DIR__ . '/auth.php';
