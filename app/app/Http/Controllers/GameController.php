@@ -36,7 +36,7 @@ class GameController extends Controller
     public function target($gameId)
     {
         $targetID = Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->pluck('target_id')[0];
-        if ($data = Player::with('Game')->with('User')->where('players.id', $targetID)->findOrFail($gameId)) {
+        if ($data = Player::with('User')->findOrFail($targetID)) {
             return ['data' => $data];
         } else {
             return response()->json([
@@ -48,7 +48,7 @@ class GameController extends Controller
     public function killer($gameId)
     {
         $killerId = Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->pluck('killer_id')[0];
-        if ($data = Player::with('Game')->with('User')->findOrFail($killerId)) {
+        if ($data = Player::with('User')->findOrFail($killerId)) {
             return ['data' => $data];
         }
     }
@@ -133,7 +133,7 @@ class GameController extends Controller
         //gaan kijken of die user al een player heeft in de game if ja -> zeggen ge moogt er ni meer dan ene hebben
         if (Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->exists()) {
             return response()->json([
-                'message' => 'You are not allowed to have multiple players in the game from the same user game id: ' . $gameId . 'user id: ' .  auth()->user()->id
+                'message' => 'You are not allowed to have multiple players in the game from the same user.'
             ], 401);
         }
         //kijken of de game bezig is of niet!!!!!
