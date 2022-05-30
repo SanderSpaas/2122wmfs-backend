@@ -136,13 +136,13 @@ class GameController extends Controller
                 'message' => 'You are not allowed to have multiple players in the game from the same user.'
             ], 401);
         }
-        //kijken of de game bezig is of niet!!!!!
-        //TODO DIT NOG GAAN FIXEN
-        // if (Game::find($gameId)->where('end_time', '>=', Carbon::now())->exist()) {
-        //     return response()->json([
-        //         'message' => 'That game has already ended: ' . $gameId
-        //     ], 405);
-        // }  
+        //kijken of de game bezig is of niet!!!!! -> gaan kijken naar status
+        if (Game::find($gameId)->where('status', '!==', 'Open')) {
+            return response()->json([
+                'message' => 'That game is not accepting players right now.'
+            ], 405);
+        }
+
         //zoniet word hun alias die ze hebben opgegeven toegevoegd en word hun player in de db gezet
         else {
             $request->validate([
