@@ -21,7 +21,7 @@ class GameController extends Controller
 
     public function game($gameId)
     {
-        if ($game = Game::with('Players')->findOrFail($gameId)) {
+        if ($game = Game::with('Players.user')->findOrFail($gameId)) {
             return ['data' => $game];
         }
     }
@@ -53,14 +53,20 @@ class GameController extends Controller
         }
     }
     //TODO GAAN NAKIJKEN OF HET SPEL AL GESTART IS 
-    public function killPlayer()
+    public function killPlayer($gameId, $targetId)
     {
-        $killer = Player::where('target_id', auth()->user()->id)->get();
+        //kijken of de game bezig is of niet!!!!! -> gaan kijken naar status
+        if (Game::where('status', '!=', 'Started')->find($gameId)) {
+            return response()->json([
+                'message' => 'The game has not started yet.'
+            ], 405);
+        }
+        $killer = Player::where('target_id', $targetId)->get();
         $killer = $killer[0];
         //huidige speler +1 kill geven
         $killer->kills = $killer->kills + 1;
         //zijn target aka de speler op dood gaan zetten
-        $target = Player::findOrFail(auth()->user()->id);
+        $target = Player::findOrFail($targetId);
         $target->dead = true;
 
         //het target van de dode aan de hitman geven
@@ -137,7 +143,7 @@ class GameController extends Controller
             ], 401);
         }
         //kijken of de game bezig is of niet!!!!! -> gaan kijken naar status
-        if (Game::find($gameId)->where('status', '!==', 'Open')) {
+        if (Game::where('status', '!=', 'Open')->find($gameId)) {
             return response()->json([
                 'message' => 'That game is not accepting players right now.'
             ], 405);

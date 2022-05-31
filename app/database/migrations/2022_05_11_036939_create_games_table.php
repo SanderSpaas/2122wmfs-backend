@@ -14,7 +14,7 @@ class CreateGamesTable extends Migration
             $table->datetime('start_time')->nullable();
             $table->datetime('end_time')->nullable();
             $table->string('murder_method', 45)->nullable()->default('NULL');
-            $table->enum('status', ['Closed', 'Open', 'Started'])->default('Closed');
+            $table->enum('status', ['Closed', 'Open', 'Started', 'Finished'])->default('Closed');
         });
     }
 

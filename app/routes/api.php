@@ -44,7 +44,7 @@ Route::group(
         Route::get('/games/{id}/killer', 'App\Http\Controllers\GameController@killer')->where('id', '[0-9]+');
 
         //gaat een speler gaan uitschakelen en zijn target aan de moordenaar gaan geven
-        Route::post('/player', 'App\Http\Controllers\GameController@killPlayer');
+        Route::post('/player/{id}/{targetID}', 'App\Http\Controllers\GameController@killPlayer')->where('id', '[0-9]+')->where('targetID', '[0-9]+');
 
         //geeft alle games in de database weer samen met de spelers in die game
         Route::get('/games', 'App\Http\Controllers\GameController@games');
