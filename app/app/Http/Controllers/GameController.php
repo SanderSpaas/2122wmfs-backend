@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
 use App\Models\Game;
 use App\Models\Player;
 use App\Models\User;
@@ -52,7 +51,7 @@ class GameController extends Controller
             return ['data' => $data];
         }
     }
-    //TODO GAAN NAKIJKEN OF HET SPEL AL GESTART IS 
+    
     public function killPlayer($gameId, $targetId)
     {
         //kijken of de game bezig is of niet!!!!! -> gaan kijken naar status

@@ -31,11 +31,11 @@ class Player extends Model
     }
     public function killer()
     {
-        return $this->belongsTo(Player::class,'id');
+        return $this->belongsTo(Player::class,'killer_id');
     }
     public function target()
     {
-        return $this->hasMany(Player::class, 'id');
+        return $this->belongsTo(Player::class, 'target_id');
     }
     public function game()
     {

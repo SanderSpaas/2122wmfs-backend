@@ -3,7 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GameController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,14 +18,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('login');
-});
+})->middleware(['guest']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['rolechecker'])->middleware(['auth'])->name('dashboard');
-
-
-// ->middleware('can:isAdmin')
+Route::get('/dashboard', [DashboardController::class, 'home'])->middleware(['rolechecker'])->middleware(['auth']);
+Route::get('/dashboard/game/{id}', [DashboardController::class, 'gameDetail'])->where(['id' => '[0-9]+'])->middleware(['rolechecker'])->middleware(['auth']);
+// Route::post('/dashboard/game/{id}/{playerID}', [GameController::class, 'killPlayer'])->where(['id' => '[0-9]+'])->where(['playerID' => '[0-9]+'])->middleware(['rolechecker'])->middleware(['auth'])->name('killPlayer');
 
 Route::post('/api/login', function (Request $request) {
     $credentials = $request->only('email', 'password');
