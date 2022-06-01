@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Blogotopia | Sign in')
+@section('title', 'Gotcha | Sign in')
 
 
 @section('content')

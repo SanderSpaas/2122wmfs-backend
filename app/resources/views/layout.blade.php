@@ -56,6 +56,7 @@
                     <div class="col-4 d-flex justify-content-end align-items-center">
                         @auth
                             <a class="btn btn-sm btn-outline-secondary" href="{{ url('logout') }}">Logout</a>
+                            <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
                         @endauth
                     </div>
                 </div>
