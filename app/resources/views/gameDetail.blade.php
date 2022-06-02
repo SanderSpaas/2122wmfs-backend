@@ -4,10 +4,10 @@
 
 
 @section('content')
-    <ul class="list-group align-items-start row" style="width: 40vw; margin-left:15vw;">
+    <ul class="list-group align-items-start row mx-auto my-5" style="width: 70vw;">
         <li class="list-group-item d-flex justify-content-between align-items-start row align-items-center">
             <p class="col ">Game name</p>
-            <p class="col col-lg-3">{{ $game->name }}</p>
+            <p class="col col-lg-3 fw-bold">{{ $game->name }}</p>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-start row align-items-center">
             <p class="col ">Total players</p>
@@ -19,7 +19,7 @@
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-start row align-items-center">
             <p class="col ">Murder method</p>
-            <p class="col col-lg-3">{{ $game->murder_method }}</p>
+            <p class="col col-lg-3 fw-bold">{{ $game->murder_method }}</p>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-start row align-items-center">
             <p class="col ">Endtime</p>
@@ -38,53 +38,56 @@
             @endif
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-start row align-items-center">
-            <p class="col ">Action</p>
-            @if ($game->status === 'Closed')
-                <form class="col col-lg-3" method="post"
-                    action="{{ action('App\Http\Controllers\DashboardController@start', $game->id) }}">
+            <div class="d-flex align-items-center">
+                <p class="col ">Actions</p>
+                @if ($game->status !== 'Started')
+                    <div class="d-flex align-items-center">
+                        <form method="post"
+                            action="{{ action('App\Http\Controllers\DashboardController@start', $game->id) }}">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-success btn-icon">Start Game
+                            </button>
+                        </form>
+                        @if ($game->status === 'Closed')
+                            <form method="post"
+                                action="{{ action('App\Http\Controllers\DashboardController@open', $game->id) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-warning btn-icon">Open Game
+                                </button>
+                            </form>
+                        @elseif ($game->status === 'Open')
+                            <form method="post"
+                                action="{{ action('App\Http\Controllers\DashboardController@close', $game->id) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-danger btn-icon">Close Game
+                                </button>
+                            </form>
+                        @endif
+                @endif
+                <form method="post" action="{{ action('App\Http\Controllers\DashboardController@delete', $game->id) }}">
                     @csrf
-                    <button type="submit" class="btn btn-warning btn-icon">Start Game
+                    <button type="submit" class="btn btn-outline-danger btn-icon">Delete Game
                     </button>
                 </form>
-                <form class="col col-lg-3" method="post"
-                    action="{{ action('App\Http\Controllers\DashboardController@open', $game->id) }}">
-                    @csrf
-                    <button type="submit" class="btn btn-success btn-icon">Open Game
-                    </button>
-                </form>
-            @elseif ($game->status === 'Open')
-                <form class="col col-lg-3" method="post"
-                    action="{{ action('App\Http\Controllers\DashboardController@start', $game->id) }}">
-                    @csrf
-                    <button type="submit" class="btn btn-success btn-icon">Start Game
-                    </button>
-                </form>
-                <form class="col col-lg-3" method="post"
-                    action="{{ action('App\Http\Controllers\DashboardController@close', $game->id) }}">
-                    @csrf
-                    <button type="submit" class="btn btn-danger btn-icon">Close Game
-                    </button>
-                </form>
-            @else
-                <p class="col col-lg-3">None available. Maybe get a drink? 🍹</p>
-            @endif
-
+            </div>
+            </div>
         </li>
-
     </ul>
-    <ul class="list-group mx-auto align-items-start row" style="width: 70vw;">
+    <ul class="list-group mx-auto align-items-start row mb-5" style="width: 70vw;">
         <li class="list-group-item d-flex justify-content-between align-items-start row align-items-center">
             <p class="col ">Name</p>
-            <p class="col">Target</p>
-            <p class="col">Killer</p>
+            @if ($game->status === 'Started' || $game->status === 'Finished')
+                <p class="col">Target</p>
+                <p class="col">Killer</p>
+            @endif
             <p class="col col-lg-1">Kills</p>
             <p class="col col-lg-1">Status</p>
             @if ($game->status === 'Started')
                 <p class="col col-lg-1">Action</p>
             @endif
         </li>
-        @if (count($game->players))
-            @foreach ($game->players as $player)
+        @if (count($players))
+            @foreach ($players as $player)
                 <li class="list-group-item d-flex justify-content-between row align-items-center">
                     @if ($player->won)
                         <p class="col text-truncate">{{ $player->alias }}👑</p>
@@ -114,11 +117,16 @@
                             <button type="submit" class="btn btn-danger btn-icon ">Kill
                             </button>
                         </form>
-                    @else
+                    @elseif ($game->status === 'Started')
                         <p class="col col-lg-1 text-truncate">/</p>
                     @endif
                 </li>
             @endforeach
+            <div class='d-flex my-5'>
+                <ul class='pagination mx-auto'>
+                    {!! $players->links() !!}
+                </ul>
+            </div>
         @else
             <li class="list-group-item d-flex justify-content-between row align-items-center">
                 <p>No players in game. Sooooo.... sit back and relax? 😎</p>

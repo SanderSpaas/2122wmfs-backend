@@ -28,13 +28,16 @@ Route::middleware(['auth', 'rolechecker'])->group(function () {
     Route::post('/dashboard/game/{id}/{playerID}', [DashboardController::class, 'killPlayer'])->where(['id' => '[0-9]+'])->where(['playerID' => '[0-9]+'])->name('killPlayer');
     //start a game
     Route::post('/dashboard/game/{id}/start', [DashboardController::class, 'start'])->where(['id' => '[0-9]+'])->name('start');
-    //clse a game aka players can't join
+    //close a game aka players can't join
     Route::post('/dashboard/game/{id}/close', [DashboardController::class, 'close'])->where(['id' => '[0-9]+'])->name('close');
     //open a game aka players can join
     Route::post('/dashboard/game/{id}/open', [DashboardController::class, 'open'])->where(['id' => '[0-9]+'])->name('open');
     //routes for creating a game
     Route::get('/dashboard/game/create', [DashboardController::class, 'add'])->name('add');
     Route::post('/dashboard/game/create', [DashboardController::class, 'store'])->name('store');
+    //routes for deleting a game aka players can
+    Route::post('/dashboard/game/{id}/delete', [DashboardController::class, 'delete'])->where(['id' => '[0-9]+'])->name('delete');
+
 });
 Route::post('/api/login', function (Request $request) {
     $credentials = $request->only('email', 'password');

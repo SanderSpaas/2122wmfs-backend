@@ -6,14 +6,14 @@
 @section('content')
     <h3 class="text-center">Welkom {{ $user->name }}.</h3>
     <h2 class="text-center">Hier is de lijst van alle games.</h2>
-    <ul class="list-group mx-auto align-items-start row" style="width: 70vw;">
+    <ul class="list-group mx-auto align-items-start row mb-5" style="width: 70vw;">
         <li class="list-group-item d-flex justify-content-between align-items-start row align-items-center">
             <p class="col col-lg-1">Info</p>
             <p class="col">Name</p>
             <p class="col col-lg-2">Endtime</p>
             <p class="col col-lg-2">Total Players</p>
             <p class="col col-lg-1">Status</p>
-
+            <p class="col col-lg-2">Action</p>
         </li>
         @foreach ($games as $game)
             <li class="list-group-item d-flex justify-content-between row align-items-center">
@@ -35,7 +35,12 @@
                 @else
                     <span class="badge bg-warning rounded-pill col col-lg-1">{{ $game->status }}</span>
                 @endif
-
+                <form class="col col-lg-2" method="post"
+                    action="{{ action('App\Http\Controllers\DashboardController@delete', $game->id) }}">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-danger btn-icon">Delete
+                    </button>
+                </form>
             </li>
         @endforeach
     </ul>

@@ -7,6 +7,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Game;
+use Carbon\Carbon;
 use App\Models\Player;
 use App\Models\User;
 use App\Models\Chat;
@@ -54,7 +55,7 @@ class GameController extends Controller
 
     public function killPlayer($gameId, $targetId)
     {
-        //kijken of de game bezig is of niet!!!!! -> gaan kijken naar status
+        //kijken of de game bezig is of niet -> gaan kijken naar status
         if (Game::where('status', '!=', 'Started')->find($gameId)) {
             return response()->json([
                 'message' => 'The game has not started yet.'
@@ -74,17 +75,21 @@ class GameController extends Controller
         //het target van de dode aan de hitman geven
         $killer->target_id = $target->target_id;
         //wanneer de moordenaar zichzelf als target krijgt is hij de laatste speler en dus de winnaar
-        //spel op finished gaan zetten -> moordenaar als winnaar gaan aanduiden
-        $game->status = 'Finished';
-        $game->save();
-        $killer->won = true;
+        //spel op finished gaan zetten en eindtijd aanduiden -> moordenaar als winnaar gaan aanduiden
+        if ($killer->id === $killer->target_id) {
+            $game->status = 'Finished';
+            $game->end_time = Carbon::now();
+            $game->save();
+            $killer->won = true;
+        }
+
         //target gaan weghalen en moordenaar gaan zetten
         $target->target_id = null;
         $target->killer_id = $killer->id;
         $killer->save();
         $target->save();
         return response()->json([
-            'message' => 'speler gedood'
+            'message' => 'Player killed'
         ], 200);
     }
     public function start($gameId)

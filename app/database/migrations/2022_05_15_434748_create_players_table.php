@@ -23,7 +23,7 @@ class CreatePlayersTable extends Migration
 
         Schema::table('players', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('game_id')->references('id')->on('games');
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
             $table->foreign('target_id')->references('id')->on('players');
             $table->foreign('killer_id')->references('id')->on('players');
         });

@@ -22,6 +22,24 @@ class Game extends Model
         'status',
         'end_time'
     ];
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'start_time',
+        'end_time',
+    ];
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
+    ];
     public function players()
     {
         return $this->hasMany(Player::class);

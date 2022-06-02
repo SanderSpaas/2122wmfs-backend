@@ -19,7 +19,7 @@ class CreateChatsTable extends Migration
 
         Schema::table('chats', function (Blueprint $table) {
 
-            $table->foreign('game_id')->references('id')->on('games');
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
             $table->foreign('player_id')->references('id')->on('players');
         });
     }

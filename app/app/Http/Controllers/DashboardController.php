@@ -7,6 +7,7 @@ use App\Models\Game;
 use App\Models\Player;
 use App\Models\User;
 use App\Models\Chat;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -16,10 +17,6 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
     public function home()
     {
         $games = Game::with('players')->get();
@@ -27,12 +24,22 @@ class DashboardController extends Controller
         // dump($games);
         return view('dashboard', compact('games', 'user'));
     }
+    public function delete($gameId)
+    {
+        $game = Game::findorFail($gameId);
+        $game->chats()->delete();
+        $game->players()->delete();
+        $game->delete();
+        return redirect(url('dashboard'));
+    }
     public function gameDetail($gameId)
     {
-        $game = Game::with('Players.user')->with('Players.target')->with('Players.killer')->findOrFail($gameId);
+        $game = Game::findOrFail($gameId);
+        $players = Player::where('game_id', $gameId)->with('user')->with('target')->with('killer')->paginate(10);
         $user = Auth::user();
-        dump($game);
-        return view('gameDetail', compact('game', 'user'));
+        // dump($game);
+
+        return view('gameDetail', compact('game', 'players', 'user'));
     }
     public function killPlayer($gameId, $targetId)
     {
@@ -56,9 +63,10 @@ class DashboardController extends Controller
         //het target van de dode aan de hitman geven
         $killer->target_id = $target->target_id;
         //wanneer de moordenaar zichzelf als target krijgt is hij de laatste speler en dus de winnaar
-        //spel op finished gaan zetten -> moordenaar als winnaar gaan aanduiden
+        //spel op finished gaan zetten en eindtijd aanduiden -> moordenaar als winnaar gaan aanduiden
         if ($killer->id === $killer->target_id) {
             $game->status = 'Finished';
+            $game->end_time = Carbon::now();
             $game->save();
             $killer->won = true;
         }
@@ -83,6 +91,11 @@ class DashboardController extends Controller
         $idArray = array();
         foreach ($players as $player) {
             array_push($idArray, $player->id);
+        }
+        if (count($idArray) < 3) {
+            return response()->json([
+                'error' => 'There are not enough players to start the game. min 3.'
+            ], 400);
         }
         //array met alle id's gaan doorheen schudden
         shuffle($idArray);

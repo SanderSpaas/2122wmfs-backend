@@ -41,21 +41,26 @@
     </head>
 
     <body>
-        <nav class="navbar bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/dashboard">
-                    <img src="{{ asset('storage/img/GotchaLogo.gif') }}" alt="logo gotcha" width="50" height="50"
-                        class="d-inline-block align-text-top">
+                <a href="#" class="navbar-brand">
+                    <img src="{{ asset('storage/img/GotchaLogo.gif') }}" height="28" alt="Gotcha">
                 </a>
-                <a class="btn btn-outline-info col-lg-1" href="{{ url('dashboard/game/create') }}">Create game</a>
-                <h1>Gotcha</h1>
-
-                @auth
-                    <a class="btn btn-sm btn-outline-secondary" href="{{ url('logout') }}">Logout</a>
-                @endauth
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav">
+                        <a href="{{ url('dashboard') }}" class="nav-item nav-link active">Home</a>
+                        @auth
+                            <a href="{{ url('dashboard/game/create') }}" class="nav-item nav-link">Create game</a>
+                        @endauth
+                    </div>
+                    @auth
+                        <div class="navbar-nav ms-auto">
+                            <a class="nav-item nav-link" href="{{ url('logout') }}">Logout</a>
+                        </div>
+                    @endauth
+                </div>
             </div>
         </nav>
-        </div>
     @show
     @section('content')
 
