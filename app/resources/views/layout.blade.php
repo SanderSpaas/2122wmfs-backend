@@ -47,6 +47,7 @@
                     <img src="{{ asset('storage/img/GotchaLogo.gif') }}" alt="logo gotcha" width="50" height="50"
                         class="d-inline-block align-text-top">
                 </a>
+                <a class="btn btn-outline-info col-lg-1" href="{{ url('dashboard/game/create') }}">Create game</a>
                 <h1>Gotcha</h1>
 
                 @auth

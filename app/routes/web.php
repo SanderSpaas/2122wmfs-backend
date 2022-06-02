@@ -20,10 +20,22 @@ Route::get('/', function () {
     return view('login');
 })->middleware(['guest']);
 
-Route::get('/dashboard', [DashboardController::class, 'home'])->middleware(['rolechecker'])->middleware(['auth']);
-Route::get('/dashboard/game/{id}', [DashboardController::class, 'gameDetail'])->where(['id' => '[0-9]+'])->middleware(['rolechecker'])->middleware(['auth']);
-// Route::post('/dashboard/game/{id}/{playerID}', [GameController::class, 'killPlayer'])->where(['id' => '[0-9]+'])->where(['playerID' => '[0-9]+'])->middleware(['rolechecker'])->middleware(['auth'])->name('killPlayer');
 
+
+Route::middleware(['auth', 'rolechecker'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'home']);
+    Route::get('/dashboard/game/{id}', [DashboardController::class, 'gameDetail'])->where(['id' => '[0-9]+']);
+    Route::post('/dashboard/game/{id}/{playerID}', [DashboardController::class, 'killPlayer'])->where(['id' => '[0-9]+'])->where(['playerID' => '[0-9]+'])->name('killPlayer');
+    //start a game
+    Route::post('/dashboard/game/{id}/start', [DashboardController::class, 'start'])->where(['id' => '[0-9]+'])->name('start');
+    //clse a game aka players can't join
+    Route::post('/dashboard/game/{id}/close', [DashboardController::class, 'close'])->where(['id' => '[0-9]+'])->name('close');
+    //open a game aka players can join
+    Route::post('/dashboard/game/{id}/open', [DashboardController::class, 'open'])->where(['id' => '[0-9]+'])->name('open');
+    //routes for creating a game
+    Route::get('/dashboard/game/create', [DashboardController::class, 'add'])->name('add');
+    Route::post('/dashboard/game/create', [DashboardController::class, 'store'])->name('store');
+});
 Route::post('/api/login', function (Request $request) {
     $credentials = $request->only('email', 'password');
     if (Auth::attempt($credentials)) {

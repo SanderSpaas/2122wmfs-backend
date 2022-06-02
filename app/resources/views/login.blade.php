@@ -4,7 +4,7 @@
 
 
 @section('content')
-            <div class="p-4 mb-3 bg-light rounded">
+            <div class="p-4 mb-3 bg-light rounded mx-auto" style="width: 50vw;">
                 <h4 class="mb-3">Sign in</h4>
                 <form class="needs-validation" novalidate="" method="post" action="{{ url('login') }}">
                     @csrf

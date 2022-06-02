@@ -20,6 +20,7 @@ class Game extends Model
         'name',
         'murder_method',
         'status',
+        'end_time'
     ];
     public function players()
     {

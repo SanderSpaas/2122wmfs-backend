@@ -51,7 +51,7 @@ class GameController extends Controller
             return ['data' => $data];
         }
     }
-    
+
     public function killPlayer($gameId, $targetId)
     {
         //kijken of de game bezig is of niet!!!!! -> gaan kijken naar status
@@ -60,6 +60,9 @@ class GameController extends Controller
                 'message' => 'The game has not started yet.'
             ], 405);
         }
+        //game vastnemen
+        $game = Game::findOrFail($gameId);
+        //killer vastnemen
         $killer = Player::where('target_id', $targetId)->get();
         $killer = $killer[0];
         //huidige speler +1 kill geven
@@ -70,10 +73,19 @@ class GameController extends Controller
 
         //het target van de dode aan de hitman geven
         $killer->target_id = $target->target_id;
+        //wanneer de moordenaar zichzelf als target krijgt is hij de laatste speler en dus de winnaar
+        //spel op finished gaan zetten -> moordenaar als winnaar gaan aanduiden
+        $game->status = 'Finished';
+        $game->save();
+        $killer->won = true;
+        //target gaan weghalen en moordenaar gaan zetten
         $target->target_id = null;
         $target->killer_id = $killer->id;
         $killer->save();
         $target->save();
+        return response()->json([
+            'message' => 'speler gedood'
+        ], 200);
     }
     public function start($gameId)
     {
@@ -93,8 +105,15 @@ class GameController extends Controller
         shuffle($idArray);
 
         //alle spelers gaan vastpakken
-        foreach ($players as $player) {
-            if ($player->id !== $idArray[0]) {
+        foreach ($players as $key => $player) {
+            if ($key === 0) {
+                //er is nog geen vorige speler de eerste keer dat we door de loop gaan de speler zelf pakken zal niet voor problemen zorgen
+                $previousPlayer = $player;
+            } else {
+                $previousPlayer = $players[$key - 1];
+            }
+            //gaan nakijken dat een speler zichzelf niet krijgt en dat hij niet de vorige speler als target krijgt
+            if ($player->id !== $idArray[0] && $previousPlayer->id !== $idArray[0]) {
                 $player->target_id = $idArray[0];
                 unset($idArray[0]);
             } else {
@@ -104,6 +123,10 @@ class GameController extends Controller
             //array gaan herindexeren anders werkt het niet
             $idArray = array_values($idArray);
             $player->save();
+
+            //game status op started gaan zetten
+            $game = Game::findOrFail($gameId);
+            $game->status = 'Started';
         }
 
         return response()->json([
