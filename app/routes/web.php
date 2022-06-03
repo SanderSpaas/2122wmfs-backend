@@ -38,6 +38,9 @@ Route::middleware(['auth', 'rolechecker'])->group(function () {
     //routes for deleting a game aka players can
     Route::post('/dashboard/game/{id}/delete', [DashboardController::class, 'delete'])->where(['id' => '[0-9]+'])->name('delete');
 
+    //routes for seeing all the users players
+    Route::get('/dashboard/users', [DashboardController::class, 'users'])->name('users');
+    Route::post('/dashboard/users', [DashboardController::class, 'usersStore'])->name('usersStore');
 });
 Route::post('/api/login', function (Request $request) {
     $credentials = $request->only('email', 'password');

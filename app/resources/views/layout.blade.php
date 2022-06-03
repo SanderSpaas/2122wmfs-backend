@@ -52,6 +52,9 @@
                         @auth
                             <a href="{{ url('dashboard/game/create') }}" class="nav-item nav-link">Create game</a>
                         @endauth
+                        @auth
+                            <a href="{{ url('dashboard/users') }}" class="nav-item nav-link">Users</a>
+                        @endauth
                     </div>
                     @auth
                         <div class="navbar-nav ms-auto">

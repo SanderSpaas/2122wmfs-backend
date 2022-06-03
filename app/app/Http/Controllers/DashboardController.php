@@ -179,4 +179,15 @@ class DashboardController extends Controller
 
         return redirect(url('dashboard/game/' . $game->id));
     }
+    public function users()
+    {
+        $users = User::paginate(10);
+        dump($users);
+        $roles = array('User',  'Spelbegeleider', 'Admin');
+        return view('users', compact('users', 'roles'));
+    }
+    public function usersStore(Request $request, $userId)
+    {
+        return redirect(url('dashboard/users'));
+    }
 }
