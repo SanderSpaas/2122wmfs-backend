@@ -8,7 +8,7 @@
                     <h4 class="mb-3">Create a game</h4>
                     @include('common.errors')
                     @foreach ($errors->getMessages() as $key => $message)
-                        {{ $errorArray[] = $key }}
+                        {!! $errorArray[] = $key !!}
                     @endforeach
 
                     <form class="needs-validation" novalidate="" method="post" action="{{ url('dashboard/game/create') }}"

@@ -40,7 +40,7 @@ Route::middleware(['auth', 'rolechecker'])->group(function () {
 
     //routes for seeing all the users players
     Route::get('/dashboard/users', [DashboardController::class, 'users'])->name('users');
-    Route::post('/dashboard/users', [DashboardController::class, 'usersStore'])->name('usersStore');
+    Route::post('/dashboard/users/{id}', [DashboardController::class, 'userStore'])->where(['id' => '[0-9]+'])->name('userStore');
 });
 Route::post('/api/login', function (Request $request) {
     $credentials = $request->only('email', 'password');

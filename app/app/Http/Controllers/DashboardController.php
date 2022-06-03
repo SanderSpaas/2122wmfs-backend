@@ -186,8 +186,22 @@ class DashboardController extends Controller
         $roles = array('User',  'Spelbegeleider', 'Admin');
         return view('users', compact('users', 'roles'));
     }
-    public function usersStore(Request $request, $userId)
+    /**
+     * Update the specified user his role.
+     *
+     * @param  Request  $request
+     * @param  string  $id
+     * @return Response
+     */
+    public function userStore(Request $request, $id)
     {
+        $request->validate([
+            'role' => 'required|in:User,Spelbegeleider,Admin',
+        ]);
+        //player role gaan updaten
+        $user = User::findOrFail($id);
+        $user->role = $request->role;
+        $user->save();
         return redirect(url('dashboard/users'));
     }
 }

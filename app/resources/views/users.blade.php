@@ -4,6 +4,7 @@
 
 
 @section('content')
+
     <ul class="list-group mx-auto align-items-start row mb-5" style="width: 70vw;">
         <li class="list-group-item d-flex justify-content-between align-items-start row align-items-center">
             <p class="col ">Name</p>
@@ -17,7 +18,11 @@
                     <p class="col"> {{ $user->role }}</p>
 
                     <form method="post"
-                        action="{{ action('App\Http\Controllers\DashboardController@usersStore', $user->id) }}">
+                        action="{{ action('App\Http\Controllers\DashboardController@userStore', $user->id) }}">
+                        @include('common.errors')
+                        @foreach ($errors->getMessages() as $key => $message)
+                            {!! $errorArray[] = $key !!}
+                        @endforeach
                         <label for="role" class="form-label">Change role</label>
                         <select
                             class="form-select {{ session()->exists('_old_input.role') ? (in_array('role', $errorArray) ? 'is-invalid' : 'is-valid') : '' }}"
