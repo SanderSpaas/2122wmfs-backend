@@ -34,7 +34,7 @@ Route::group(
         //gaat een player gaan toevoegen aan een game
         Route::post('/games/{id}/add', 'App\Http\Controllers\GameController@addPlayer')->where('id', '[0-9]+');
 
-        //geeft de user + player
+        //geeft de user + player met zijn target en moordenaar
         Route::get('/games/{id}/player', 'App\Http\Controllers\GameController@player')->where('id', '[0-9]+');
 
         //geeft info over de huigide user zijn target weer: player + user info van die game

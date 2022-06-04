@@ -9,27 +9,27 @@
                     @include('common.errors')
 
                     <form class="needs-validation" novalidate="" method="post"
-                        action="{{ url('games/' . $game->id . '/players/' . $player->id . '/edit' ) }}" enctype="multipart/form-data">
+                        action="{{ url('games/' . $game->id . '/players/' . $player->id . '/edit') }}"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="row g-3">
                             <div class="col-12">
                                 <label for="alias" class="form-label">Alias</label>
-                                <input type="text"
-                                    class="form-control @error('alias') is-invalid @enderror"
-                                    id="alias" placeholder="" name="alias"
+                                <input type="text" class="form-control @error('alias') is-invalid @enderror" id="alias"
+                                    placeholder="" name="alias"
                                     value="{{ old('alias') ? old('alias') : $player->alias }}">
                             </div>
                             <div class="col-12">
                                 <label for="kills" class="form-label">Kills</label>
-                                <input type="number"  class="form-control @error('kills') is-invalid @enderror" id="kills" name="kills" min="0" value="{{ old('kills') ? old('kills') : $player->kills }}">
+                                <input type="number" class="form-control @error('kills') is-invalid @enderror" id="kills"
+                                    name="kills" min="0" value="{{ old('kills') ? old('kills') : $player->kills }}">
                             </div>
                         </div>
                         <hr class="my-4">
                         <button class="btn btn-primary btn-lg" type="submit">Update player</button>
+                    </form>
                 </div>
-                </form>
             </div>
-        </div>
         </div>
     </main>
 @endsection

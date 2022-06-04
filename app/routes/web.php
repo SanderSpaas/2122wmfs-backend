@@ -23,10 +23,14 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth', 'rolechecker'])->group(function () {
+    //hoofdpagina van het dashboard
     Route::get('/dashboard', [DashboardController::class, 'home']);
+
     //detail page of a game 
     Route::get('/games/{id}', [DashboardController::class, 'gameDetail'])->where(['id' => '[0-9]+']);
-    Route::post('/games/{id}/{playerID}', [DashboardController::class, 'killPlayer'])->where(['id' => '[0-9]+'])->where(['playerID' => '[0-9]+'])->name('killPlayer');
+
+    //een speler gaan uitschakelen
+    Route::post('/games/{id}/{playerID}', [DashboardController::class, 'killPlayer'])->where(['id' => '[0-9]+'])->where(['playerID' => '[0-9]+']);
     //start a game
     Route::post('/games/{id}/start', [DashboardController::class, 'start'])->where(['id' => '[0-9]+'])->name('start');
     //close a game aka players can't join

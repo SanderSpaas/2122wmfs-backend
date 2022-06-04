@@ -70,7 +70,6 @@
                     </button>
                 </form>
             </div>
-            </div>
             @include('common.errors')
         </li>
     </ul>
@@ -120,18 +119,18 @@
                         @endif
                         <a class="btn btn-outline-warning btn-icon"
                             href="{{ url('games/' . $game->id . '/players/' . $player->id . '/edit') }}">Edit</a>
+                    </div>
                 </li>
-                </div>
             @endforeach
-            <div class='d-flex my-5'>
-                <ul class='pagination mx-auto'>
-                    {!! $players->links() !!}
-                </ul>
-            </div>
         @else
             <li class="list-group-item d-flex justify-content-between row align-items-center">
                 <p>No players in game. Sooooo.... sit back and relax? 😎</p>
             </li>
         @endif
     </ul>
+    <div class='d-flex my-5'>
+        <ul class='pagination mx-auto'>
+            {!! $players->links() !!}
+        </ul>
+    </div>
 @endsection

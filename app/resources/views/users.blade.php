@@ -6,7 +6,7 @@
 @section('content')
     <div class="row p-4 m-5 mb-5 bg-light rounded mx-auto" style="width: 70vw;">
         <h3 class="mb-3">Search users</h3>
-        <form class="needs-validation" novalidate="" method="get" action="{{ url('/dashboard/users/search') }}">
+        <form class="needs-validation" novalidate="" method="get" action="{{ url('/users/search') }}">
             @csrf
             <div class="row g-3">
                 <div class="col-12 col-md-6">
@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <label for="role" class="form-label">Role</label>
-                    <select class="form-select" id="role" required="" name="role">
+                    <select class="form-select" id="role" name="role">
                         <option value="">any role</option>
                         @foreach ($roles as $role)
                             @if (request('role') == $role)
@@ -35,7 +35,7 @@
             <div class="row g-3">
                 <div class="col-12 col-md-6">
                     <label for="sort" class="form-label">Sort by</label>
-                    <select class="form-select" id="sort" required="" name="sort">
+                    <select class="form-select" id="sort" name="sort">
                         <option value="name" @if (request('sort') == 'name') selected @endif>name</option>
                         <option value="role" @if (request('sort') == 'role') selected @endif>role</option>
                         <option value="most_recent" @if (request('sort') == 'most_recent') selected @endif>most recent
@@ -72,7 +72,7 @@
                         {{-- <label for="role" class="form-label">Change role</label> --}}
                         <div class="d-flex"><select
                                 class="form-select {{ session()->exists('_old_input.role') ? (in_array('role', $errorArray) ? 'is-invalid' : 'is-valid') : '' }}"
-                                id="role" required="true" name="role">
+                                name="role">
                                 <option value="">Change role...</option>
                                 @foreach ($roles as $role)
                                     @if (old('role') == $role)
@@ -91,15 +91,15 @@
                     </form>
                 </li>
             @endforeach
-            <div class='d-flex my-5'>
-                <ul class='pagination mx-auto'>
-                    {!! $users->links() !!}
-                </ul>
-            </div>
         @else
             <li class="list-group-item d-flex justify-content-between row align-items-center">
                 <p>No users found with the given search criteria.</p>
             </li>
         @endif
     </ul>
+    <div class='d-flex my-5'>
+        <ul class='pagination mx-auto'>
+            {!! $users->links() !!}
+        </ul>
+    </div>
 @endsection

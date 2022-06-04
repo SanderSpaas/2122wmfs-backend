@@ -32,16 +32,13 @@
                                    @error('end_time') is-invalid @enderror"
                                         id="end_time" name="end_time" value="{{ old('end_time', '') }}">
                                 </div>
-
                             </div>
                         </div>
-
                         <hr class="my-4">
                         <button class="btn btn-primary btn-lg" type="submit">Create game</button>
+                    </form>
                 </div>
-                </form>
             </div>
-        </div>
         </div>
     </main>
 @endsection

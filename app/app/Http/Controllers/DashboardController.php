@@ -56,7 +56,7 @@ class DashboardController extends Controller
         //killer vastnemen
         $killer = Player::where('target_id', $targetId)->get();
 
-        if ($killer) {
+        if (!$killer) {
             return redirect(url('games/' . $gameId))->withErrors(["Something went wrong." => "The player with id: " . $targetId . " does not exist."]);
         }
         $killer = $killer[0];
