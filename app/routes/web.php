@@ -24,24 +24,36 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'rolechecker'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'home']);
-    Route::get('/dashboard/game/{id}', [DashboardController::class, 'gameDetail'])->where(['id' => '[0-9]+']);
-    Route::post('/dashboard/game/{id}/{playerID}', [DashboardController::class, 'killPlayer'])->where(['id' => '[0-9]+'])->where(['playerID' => '[0-9]+'])->name('killPlayer');
+    //detail page of a game 
+    Route::get('/games/{id}', [DashboardController::class, 'gameDetail'])->where(['id' => '[0-9]+']);
+    Route::post('/games/{id}/{playerID}', [DashboardController::class, 'killPlayer'])->where(['id' => '[0-9]+'])->where(['playerID' => '[0-9]+'])->name('killPlayer');
     //start a game
-    Route::post('/dashboard/game/{id}/start', [DashboardController::class, 'start'])->where(['id' => '[0-9]+'])->name('start');
+    Route::post('/games/{id}/start', [DashboardController::class, 'start'])->where(['id' => '[0-9]+'])->name('start');
     //close a game aka players can't join
-    Route::post('/dashboard/game/{id}/close', [DashboardController::class, 'close'])->where(['id' => '[0-9]+'])->name('close');
+    Route::post('/games/{id}/close', [DashboardController::class, 'close'])->where(['id' => '[0-9]+'])->name('close');
     //open a game aka players can join
-    Route::post('/dashboard/game/{id}/open', [DashboardController::class, 'open'])->where(['id' => '[0-9]+'])->name('open');
+    Route::post('/games/{id}/open', [DashboardController::class, 'open'])->where(['id' => '[0-9]+'])->name('open');
     //routes for creating a game
-    Route::get('/dashboard/game/create', [DashboardController::class, 'add'])->name('add');
-    Route::post('/dashboard/game/create', [DashboardController::class, 'store'])->name('store');
+    Route::get('/games/create', [DashboardController::class, 'add'])->name('add');
+    Route::post('/games/create', [DashboardController::class, 'store'])->name('store');
+    //routes for editing a game
+    Route::get('/games/{id}/edit', [DashboardController::class, 'edit'])->where(['id' => '[0-9]+'])->name('edit');
+    Route::post('/games/{id}/edit', [DashboardController::class, 'update'])->where(['id' => '[0-9]+'])->name('update');
+    //routes for editing a player
+    Route::get('/games/{gameId}/players/{id}/edit', [DashboardController::class, 'playerEdit'])->where(['gameId' => '[0-9]+'])->where(['id' => '[0-9]+']);
+    Route::post('/games/{gameId}/players/{id}/edit', [DashboardController::class, 'playerUpdate'])->where(['gameId' => '[0-9]+'])->where(['id' => '[0-9]+']);
+    
     //routes for deleting a game aka players can
-    Route::post('/dashboard/game/{id}/delete', [DashboardController::class, 'delete'])->where(['id' => '[0-9]+'])->name('delete');
+    Route::post('/games/{id}/delete', [DashboardController::class, 'delete'])->where(['id' => '[0-9]+'])->name('delete');
 
     //routes for seeing all the users players
-    Route::get('/dashboard/users', [DashboardController::class, 'users'])->name('users');
-    Route::post('/dashboard/users/{id}', [DashboardController::class, 'userStore'])->where(['id' => '[0-9]+'])->name('userStore');
+    Route::get('/users', [DashboardController::class, 'users'])->name('users');
+    Route::post('/users/{id}', [DashboardController::class, 'userStore'])->where(['id' => '[0-9]+'])->name('userStore');
+    //searching in the users
+    Route::get('/users/search', [DashboardController::class, "search"]);
 });
+
+//login for the spa
 Route::post('/api/login', function (Request $request) {
     $credentials = $request->only('email', 'password');
     if (Auth::attempt($credentials)) {

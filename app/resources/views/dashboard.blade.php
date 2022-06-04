@@ -17,7 +17,7 @@
         </li>
         @foreach ($games as $game)
             <li class="list-group-item d-flex justify-content-between row align-items-center">
-                <a class="btn btn-outline-info col-lg-1" href="{{ url('dashboard/game/' . $game->id) }}">Info</a>
+                <a class="btn btn-outline-info col-lg-1" href="{{ url('games/' . $game->id) }}">Info</a>
                 <p class="fw-bold col text-truncate">{{ $game->name }}</p>
 
                 <p class="col col-lg-2">{{ \Carbon\Carbon::parse($game->end_time)->format('d/m/Y') }}</p>
@@ -26,15 +26,13 @@
                 @else
                     <p class="col col-lg-2">0👤</p>
                 @endif
-                @if ($game->status === 'Closed')
-                    <span class="badge bg-danger rounded-pill col col-lg-1">{{ $game->status }}</span>
-                @elseif ($game->status === 'Open')
-                    <span class="badge bg-success rounded-pill col col-lg-1">{{ $game->status }}</span>
-                @elseif ($game->status === 'Finished')
-                    <span class="badge bg-primary rounded-pill col col-lg-1">{{ $game->status }}</span>
-                @else
-                    <span class="badge bg-warning rounded-pill col col-lg-1">{{ $game->status }}</span>
-                @endif
+                <span @class([
+                'badge rounded-pill col col-lg-1',
+                'bg-success' => $game->status === 'Open',
+                'bg-primary' => $game->status === 'Finished',
+                'bg-warning' => $game->status === 'Started',
+                'bg-danger' => $game->status === 'Closed',
+            ])>{{ $game->status }}</span>
                 <form class="col col-lg-2" method="post"
                     action="{{ action('App\Http\Controllers\DashboardController@delete', $game->id) }}">
                     @csrf

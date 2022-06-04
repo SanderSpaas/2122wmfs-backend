@@ -16,13 +16,15 @@ class GameController extends Controller
 {
     public function games()
     {
-        return ['data' => Game::with('players')->get()];
+        return response()->json([
+            'data' => Game::with('players')->get()
+        ], 200);
     }
 
     public function game($gameId)
     {
         if ($game = Game::with('Players.user')->findOrFail($gameId)) {
-            return ['data' => $game];
+            return response()->json(['data' => $game], 200);
         }
     }
     //geeft info over de player en de user weer

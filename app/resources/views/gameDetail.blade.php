@@ -27,15 +27,13 @@
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-start row align-items-center">
             <p class="col ">Status</p>
-            @if ($game->status === 'Closed')
-                <span class="badge bg-danger rounded-pill col col-lg-3">{{ $game->status }}</span>
-            @elseif ($game->status === 'Open')
-                <span class="badge bg-success rounded-pill col col-lg-3">{{ $game->status }}</span>
-            @elseif ($game->status === 'Finished')
-                <span class="badge bg-primary rounded-pill col col-lg-3">{{ $game->status }}</span>
-            @else
-                <span class="badge bg-warning rounded-pill col col-lg-3">{{ $game->status }}</span>
-            @endif
+            <span @class([
+                'badge rounded-pill col col-lg-3',
+                'bg-success' => $game->status === 'Open',
+                'bg-primary' => $game->status === 'Finished',
+                'bg-warning' => $game->status === 'Started',
+                'bg-danger' => $game->status === 'Closed',
+            ])>{{ $game->status }}</span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-start row align-items-center">
             <div class="d-flex align-items-center">
@@ -64,6 +62,8 @@
                             </form>
                         @endif
                 @endif
+                <a class="btn btn-outline-warning btn-icon" href="{{ url('games/' . $game->id) . '/edit' }}">Edit
+                    Game</a>
                 <form method="post" action="{{ action('App\Http\Controllers\DashboardController@delete', $game->id) }}">
                     @csrf
                     <button type="submit" class="btn btn-outline-danger btn-icon">Delete Game
@@ -71,6 +71,7 @@
                 </form>
             </div>
             </div>
+            @include('common.errors')
         </li>
     </ul>
     <ul class="list-group mx-auto align-items-start row mb-5" style="width: 70vw;">
@@ -82,9 +83,7 @@
             @endif
             <p class="col col-lg-1">Kills</p>
             <p class="col col-lg-1">Status</p>
-            @if ($game->status === 'Started')
-                <p class="col col-lg-1">Action</p>
-            @endif
+            <p class="col col-lg-1">Action</p>
         </li>
         @if (count($players))
             @foreach ($players as $player)
@@ -110,17 +109,19 @@
                     @else
                         <span class="col col-lg-1 badge bg-success text-light">Alive</span>
                     @endif
-                    @if ($game->status === 'Started' && !$player->dead)
-                        <form method="post" class="col col-lg-1"
-                            action="{{ action('App\Http\Controllers\DashboardController@killPlayer', [$game->id, $player->id]) }}">
-                            @csrf
-                            <button type="submit" class="btn btn-danger btn-icon ">Kill
-                            </button>
-                        </form>
-                    @elseif ($game->status === 'Started')
-                        <p class="col col-lg-1 text-truncate">/</p>
-                    @endif
+                    <div class="col col-lg-1">
+                        @if ($game->status === 'Started' && !$player->dead)
+                            <form method="post"
+                                action="{{ action('App\Http\Controllers\DashboardController@killPlayer', [$game->id, $player->id]) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-danger btn-icon ">Kill
+                                </button>
+                            </form>
+                        @endif
+                        <a class="btn btn-outline-warning btn-icon"
+                            href="{{ url('games/' . $game->id . '/players/' . $player->id . '/edit') }}">Edit</a>
                 </li>
+                </div>
             @endforeach
             <div class='d-flex my-5'>
                 <ul class='pagination mx-auto'>

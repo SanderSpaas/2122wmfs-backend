@@ -44,13 +44,13 @@ Route::group(
         Route::get('/games/{id}/killer', 'App\Http\Controllers\GameController@killer')->where('id', '[0-9]+');
 
         //gaat een speler gaan uitschakelen en zijn target aan de moordenaar gaan geven
-        Route::post('/player/{id}/{targetID}', 'App\Http\Controllers\GameController@killPlayer')->where('id', '[0-9]+')->where('targetID', '[0-9]+');
+        Route::PATCH('/player/{id}/{targetID}', 'App\Http\Controllers\GameController@killPlayer')->where('id', '[0-9]+')->where('targetID', '[0-9]+');
 
         //geeft alle games in de database weer samen met de spelers in die game
         Route::get('/games', 'App\Http\Controllers\GameController@games');
 
         //gaat alle spelers in die game een target gaan geven, Aleen een ADMIN heeft toegang tot deze route
-        Route::get('/games/{id}/start', 'App\Http\Controllers\GameController@start')->where('id', '[0-9]+')->middleware('can:isAdmin');
+        Route::PATCH('/games/{id}/start', 'App\Http\Controllers\GameController@start')->where('id', '[0-9]+')->middleware('can:isAdmin');
 
         //gaat alle messages van die game gaan weergeven + de speler die het heeft verstuurd
         Route::get('/games/{id}/chat', 'App\Http\Controllers\GameController@chat')->where('id', '[0-9]+');

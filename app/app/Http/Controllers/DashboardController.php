@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use App\Models\Game;
 use App\Models\Player;
@@ -12,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     /**
      * Display a listing of the resource.
      *
@@ -43,16 +47,18 @@ class DashboardController extends Controller
     }
     public function killPlayer($gameId, $targetId)
     {
-        //kijken of de game bezig is of niet!!!!! -> gaan kijken naar status
-        if (Game::where('status', '!=', 'Started')->find($gameId)) {
-            return response()->json([
-                'message' => 'The game has not started yet.'
-            ], 405);
-        }
         //game vastnemen
         $game = Game::findOrFail($gameId);
+        //kijken of de game bezig is of niet!!!!! -> gaan kijken naar status
+        if (Game::where('status', '!=', 'Started')->find($gameId)) {
+            return redirect(url('games/' . $gameId))->withErrors(["Something went wrong." => "The game has not started yet or has already finished."]);
+        }
         //killer vastnemen
         $killer = Player::where('target_id', $targetId)->get();
+
+        if ($killer) {
+            return redirect(url('games/' . $gameId))->withErrors(["Something went wrong." => "The player with id: " . $targetId . " does not exist."]);
+        }
         $killer = $killer[0];
         //huidige speler +1 kill geven
         $killer->kills = $killer->kills + 1;
@@ -76,26 +82,20 @@ class DashboardController extends Controller
         $target->killer_id = $killer->id;
         $killer->save();
         $target->save();
-        return redirect(url('dashboard/game/' . $gameId));
+        return redirect(url('games/' . $gameId));
     }
     public function start($gameId)
     {
-        if (!Game::where('id', '=', $gameId)->exists()) {
-            return response()->json([
-                'message' => 'That game does not exist: ' . $gameId
-            ], 404);
-        }
+        $game = Game::findOrFail($gameId);
         //alle spelers van deze game gaan vastpakken
         $players = Player::where('game_id', $gameId)->get();
+        if (count($players) < 3) {
+            return redirect(url('games/' . $gameId))->withErrors(["Something went wrong." => "You need at least 3 players to start the game."]);
+        }
         //door alle spelers gaan loopen
         $idArray = array();
         foreach ($players as $player) {
             array_push($idArray, $player->id);
-        }
-        if (count($idArray) < 3) {
-            return response()->json([
-                'error' => 'There are not enough players to start the game. min 3.'
-            ], 400);
         }
         //array met alle id's gaan doorheen schudden
         shuffle($idArray);
@@ -125,36 +125,23 @@ class DashboardController extends Controller
             $game->status = 'Started';
             $game->save();
         }
-        return redirect(url('dashboard/game/' . $gameId));
-        return response()->json([
-            'message' => 'de doelwitten zijn uitgedeeld'
-        ], 200);
+        return redirect(url('games/' . $gameId));
     }
+    //game status op closed gaan zetten
     public function close($gameId)
     {
-        if (!Game::where('id', '=', $gameId)->exists()) {
-            return response()->json([
-                'message' => 'That game does not exist: ' . $gameId
-            ], 404);
-        }
-        //game status op started gaan zetten
         $game = Game::findOrFail($gameId);
         $game->status = 'Closed';
         $game->save();
-        return redirect(url('dashboard/game/' . $gameId));
+        return redirect(url('games/' . $gameId));
     }
+    //game status op open gaan zetten
     public function open($gameId)
     {
-        if (!Game::where('id', '=', $gameId)->exists()) {
-            return response()->json([
-                'message' => 'That game does not exist: ' . $gameId
-            ], 404);
-        }
-        //game status op started gaan zetten
         $game = Game::findOrFail($gameId);
         $game->status = 'Open';
         $game->save();
-        return redirect(url('dashboard/game/' . $gameId));
+        return redirect(url('games/' . $gameId));
     }
 
     public function add()
@@ -177,13 +164,32 @@ class DashboardController extends Controller
         $game->end_time = $request->end_time;
         $game->save();
 
-        return redirect(url('dashboard/game/' . $game->id));
+        return redirect(url('games/' . $game->id));
+    }
+    public function edit($gameId)
+    {
+        $game = Game::findorFail($gameId);
+        return view('editGame', compact('game'));
+    }
+    public function update(Request $request, $gameId)
+    {
+        $request->validate([
+            'name' => 'required|max:125',
+            'murder_method' => 'required|max:125',
+        ]);
+
+        $game = Game::findorFail($gameId);
+        $game->name = $request->name;
+        $game->murder_method = $request->murder_method;
+        $game->save();
+
+        return redirect(url('games/' . $game->id));
     }
     public function users()
     {
         $users = User::paginate(10);
-        dump($users);
-        $roles = array('User',  'Spelbegeleider', 'Admin');
+        // dump($users);
+        $roles = array('User', 'Spelbegeleider', 'Admin');
         return view('users', compact('users', 'roles'));
     }
     /**
@@ -202,6 +208,68 @@ class DashboardController extends Controller
         $user = User::findOrFail($id);
         $user->role = $request->role;
         $user->save();
-        return redirect(url('dashboard/users'));
+        return redirect(url('users'));
+    }
+    public function search(Request $request)
+    {
+        // dump($request); 
+        $users = User::orderBy('name')->paginate(10);
+        $roles = array('User', 'Spelbegeleider', 'Admin');
+        $terms = explode(" ", strtolower($request->term));
+
+        if (count($request->all()) > 0) {
+            $users = User::query();
+
+            //search term
+            if ($terms[0] !== "") {
+                if ($request->filled('term')) {
+                    $termArray = explode(',', $request->term);
+                    for ($i = 0; $i < count($termArray); $i++) {
+                        $users->where('name', 'like', '%' . $termArray[$i] . '%');
+                    }
+                }
+            }
+
+            //role
+            if ($request->filled('role')) {
+                $users->where('role', $request->role);
+            }
+
+            //sort by
+            if ($request->sort == 'name') {
+                $users->orderBy('name');
+            } else if ($request->sort == 'role') {
+                $users->orderBy('role');
+            } else if ($request->sort == 'most_recent') {
+                $users->orderBy('created_at', 'desc');
+            } else {
+                $users->orderBy('created_at');
+            }
+
+            //zoeken
+            $users = $users->paginate(10)->withQueryString();
+        }
+        return view('users', compact('users', 'roles'));
+    }
+
+    public function playerEdit($gameId, $id)
+    {
+        $player = Player::findorFail($id);
+        $game = Game::findorFail($gameId);
+        return view('editPlayer', compact('player', 'game'));
+    }
+    public function playerUpdate(Request $request, $gameId, $id)
+    {
+        $request->validate([
+            'alias' => 'required|max:125',
+            'kills' => 'required|integer|digits_between:0,1000',
+        ]);
+
+        $player = Player::findorFail($id);
+        $player->alias = $request->alias;
+        $player->kills = $request->kills;
+        $player->save();
+
+        return redirect(url('games/' . $gameId));
     }
 }
