@@ -12,29 +12,19 @@ use App\Models\Player;
 use App\Models\User;
 use App\Models\Chat;
 
+/**
+ * @group Gotcha
+ *
+ * API endpoints for managing a Gotcha game 
+ */
 class GameController extends Controller
 {
     /**
-     * @OA\Get(
-     *      path="/games",
-     *      operationId="getProjectsList",
-     *      tags={"Games"},
-     *      summary="Get list of games with players",
-     *      description="Returns list of games with players",
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/ProjectResource")
-     *       ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     *     )
+     * Retuns a list of all games with their players.
+     *
+     * @response {
+     *
+     * }
      */
     public function games()
     {
