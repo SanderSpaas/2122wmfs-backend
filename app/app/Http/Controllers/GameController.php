@@ -14,6 +14,28 @@ use App\Models\Chat;
 
 class GameController extends Controller
 {
+    /**
+     * @OA\Get(
+     *      path="/games",
+     *      operationId="getProjectsList",
+     *      tags={"Games"},
+     *      summary="Get list of games with players",
+     *      description="Returns list of games with players",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/ProjectResource")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *     )
+     */
     public function games()
     {
         return ['data' => Game::with('players')->get()];
@@ -165,6 +187,17 @@ class GameController extends Controller
         $chat->save();
 
         return response()->json(['message' => 'The chat message: ' . $request->message . ' has been created'], 201);
+    }
+    public function deleteChat($gameId, $chatId){
+        if (auth()->user()->role !== 'spelbegeleider' && auth()->user()->role !== 'admin') {
+            return response()->json([
+                'message' => 'You are not allowed to remove chat.'
+            ], 403);
+        }
+        Chat::findOrFail($chatId)->delete();
+        return response()->json([
+            'message' => 'Chat message deleted'
+        ], 200);
     }
     //geeft info over de player en de user weer
     // public function player($gameId)

@@ -229,12 +229,10 @@ class DashboardController extends Controller
                     }
                 }
             }
-
             //role
             if ($request->filled('role')) {
                 $users->where('role', $request->role);
             }
-
             //sort by
             if ($request->sort == 'name') {
                 $users->orderBy('name');
@@ -245,7 +243,6 @@ class DashboardController extends Controller
             } else {
                 $users->orderBy('created_at');
             }
-
             //zoeken
             $users = $users->paginate(10)->withQueryString();
         }

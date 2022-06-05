@@ -4,7 +4,7 @@
 
 
 @section('content')
-    <ul class="list-group align-items-start row mx-auto my-5" style="width: 70vw;">
+    <ul class="list-group align-items-start row mx-auto my-3" style="width: 70vw;">
         <li class="list-group-item d-flex justify-content-between align-items-start row align-items-center">
             <p class="col ">Game name</p>
             <p class="col col-lg-3 fw-bold">{{ $game->name }}</p>
@@ -52,7 +52,7 @@
                             <form method="post"
                                 action="{{ action('App\Http\Controllers\DashboardController@open', $game->id) }}">
                                 @csrf
-                                <button type="submit" class="btn btn-outline-warning btn-icon">Open Game
+                                <button type="submit" class="btn btn-outline-info btn-icon">Open Game
                                 </button>
                             </form>
                         @elseif ($game->status === 'Open')
@@ -72,10 +72,12 @@
                     </button>
                 </form>
             </div>
-            @include('common.errors')
         </li>
     </ul>
-    <ul class="list-group mx-auto align-items-start row mb-5" style="width: 70vw;">
+    <ul class="mx-auto" style="width: 35vw;">
+            @include('common.errors')
+    </ul>
+    <ul class="list-group mx-auto align-items-start row my-3" style="width: 70vw;">
         <li class="list-group-item d-flex justify-content-between align-items-start row align-items-center">
             <p class="col ">Name</p>
             @if ($game->status === 'Started' || $game->status === 'Finished')

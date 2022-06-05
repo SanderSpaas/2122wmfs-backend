@@ -43,5 +43,8 @@ Route::group(
 
         //bericht gaan toevoegen in de chat colomend
         Route::post('/games/{id}/chat', 'App\Http\Controllers\GameController@addChat')->where('id', '[0-9]+');
+
+        //een chatbericht gaan verwijderen
+        Route::delete('/games/{id}/chat/{chatId}', 'App\Http\Controllers\GameController@deleteChat')->where('id chatId', '[0-9]+');
     }
 );
