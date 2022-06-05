@@ -21,57 +21,39 @@ class GameController extends Controller
 
     public function game($gameId)
     {
+        //gaan nakijken of speler meetdoet aan game
         if ($game = Game::with('Players.user')->findOrFail($gameId)) {
             return ['data' => $game];
-        }
-    }
-    //geeft info over de player en de user weer
-    public function player($gameId)
-    {
-        if ($data = Player::where('game_id', $gameId)->where('user_id', auth()->user()->id)->with('User', 'Game' )->firstOrFail()) {
-            return ['data' => $data];
-        }
-    }
-    //geeft info over de huigide user zijn target weer: player + user info van die game
-    public function target($gameId)
-    {
-        $targetID = Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->pluck('target_id')[0];
-        if ($data = Player::with('User')->findOrFail($targetID)) {
-            return ['data' => $data];
-        } else {
-            return response()->json([
-                'message' => 'No target or game found with the IDs: ' . $gameId . $targetID
-            ], 404);
-        }
-    }
-    //geeft info over de huigide user zijn killer weer: player + user info van die game
-    public function killer($gameId)
-    {
-        $killerId = Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->pluck('killer_id')[0];
-        if ($data = Player::with('User')->findOrFail($killerId)) {
-            return ['data' => $data];
         }
     }
 
     public function killPlayer($gameId, $targetId)
     {
         //kijken of de game bezig is of niet -> gaan kijken naar status
-        if (Game::where('status', '!=', 'Started')->find($gameId)) {
+        if ($game = Game::where('status', '!=', 'Started')->findOrFail($gameId)) {
             return response()->json([
-                'message' => 'The game has not started yet.'
-            ], 405);
+                'message' => 'The game has not started yet or has already finished.'
+            ], 403);
         }
-        //game vastnemen
-        $game = Game::findOrFail($gameId);
         //killer vastnemen
         $killer = Player::where('target_id', $targetId)->get();
-        $killer = $killer[0];
+        if (!$killer) {
+            return response()->json([
+                'message' => 'The player with id: ' . $targetId . ' does not exist.'
+            ], 404);
+        }
+
+        //gaan nakijken of het target id wel van de speler zelf is 
+        $target = Player::findOrFail($targetId);
+        if (auth()->user()->id !== $target->user_id && auth()->user()->role !== 'spelbegeleider') {
+            return response()->json([
+                'message' => 'You are not allowed to kill this player.'
+            ], 403);
+        }
+        //zijn target aka de speler op dood gaan zetten
+        $target->dead = true;
         //huidige speler +1 kill geven
         $killer->kills = $killer->kills + 1;
-        //zijn target aka de speler op dood gaan zetten
-        $target = Player::findOrFail($targetId);
-        $target->dead = true;
-
         //het target van de dode aan de hitman geven
         $killer->target_id = $target->target_id;
         //wanneer de moordenaar zichzelf als target krijgt is hij de laatste speler en dus de winnaar
@@ -121,64 +103,94 @@ class GameController extends Controller
         if (Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->exists()) {
             return response()->json([
                 'message' => 'You are not allowed to have multiple players in the game from the same user.'
-            ], 401);
+            ], 403);
         }
         //kijken of de game bezig is of niet!!!!! -> gaan kijken naar status
         if (Game::where('status', '!=', 'Open')->find($gameId)) {
             return response()->json([
                 'message' => 'That game is not accepting players right now.'
-            ], 405);
+            ], 403);
         }
 
-        //zoniet word hun alias die ze hebben opgegeven toegevoegd en word hun player in de db gezet
-        else {
-            $request->validate([
-                'alias' => 'required|max:125',
-            ]);
-            $player = new Player();
-            $player->alias = $request->alias;
-            $player->game_id = $gameId;
-            $player->user_id = auth()->user()->id;
-            $player->save();
+        //alles in orde player word aan db toegeveogd
+        $request->validate([
+            'alias' => 'required|max:125',
+        ]);
+        $player = new Player();
+        $player->alias = $request->alias;
+        $player->game_id = $gameId;
+        $player->user_id = auth()->user()->id;
+        $player->save();
 
-            return response()->json(['message' => 'The player: ' . $request->alias . ' has been created'], 201);
-        }
+        return response()->json(['message' => 'The player: ' . $request->alias . ' has been created'], 201);
     }
 
     //chat gaan tonen van die game + spelers die ze verstuurd hebben
     public function chat($gameId)
     {
-        if ($data = Chat::where('game_id', $gameId)->with('Player')->orderBy("send_at")->get()) {
-            return ['data' => $data];
-        } else {
+        //kijken of game bestaat
+        Game::findorFail($gameId);
+        //kijken of speler in game zit
+        $player = Player::where('game_id',$gameId)->where('user_id', auth()->user()->id)->get();
+        if ($player->isEmpty()) {
             return response()->json([
-                'message' => 'No game found with the ID: ' . $gameId
-            ], 404);
+                'message' => 'Player is not playing in this game: ' . $gameId
+            ], 403);
         }
+        $data = Chat::where('game_id', $gameId)->with('Player')->orderBy("send_at")->get();
+        return ['data' => $data];
     }
+
+    //chat gaan toevoegen aan db
     public function addChat(Request $request, $gameId)
     {
-        //kijken of de game bestaat
-        if (!Game::where('id', '=', $gameId)->exists()) {
-            return response()->json([
-                'message' => 'That game does not exist: ' . $gameId
-            ], 404);
-        }
-        //todo kijken of spel nog bezig is?
-
+        //kijken of game bestaat
+        Game::findorFail($gameId);
         //kijken of speler in game zit
-        if (Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->exists()) {
-            $request->validate([
-                'message' => 'required|max:250',
-            ]);
-            $chat = new Chat();
-            $chat->message = $request->message;
-            $chat->send_at = date('Y-m-d H:i:s');
-            $chat->game_id = $gameId;
-            $chat->player_id = Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->pluck('id')[0];
-            $chat->save();
-
-            return response()->json(['message' => 'The chat message: ' . $request->message . ' has been created'], 201);
+        $player = Player::where('game_id', $gameId)->where('user_id', auth()->user()->id)->get();
+        if ($player->isEmpty()) {
+            return response()->json([
+                'message' => 'Player is not playing in this game: ' . $gameId
+            ], 403);
         }
+        //chat gaan in database gaan steken
+        $request->validate([
+            'message' => 'required|max:250',
+        ]);
+        $chat = new Chat();
+        $chat->message = $request->message;
+        $chat->send_at = date('Y-m-d H:i:s');
+        $chat->game_id = $gameId;
+        $chat->player_id = Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->pluck('id')[0];
+        $chat->save();
+
+        return response()->json(['message' => 'The chat message: ' . $request->message . ' has been created'], 201);
     }
+    //geeft info over de player en de user weer
+    // public function player($gameId)
+    // {
+    //     if ($data = Player::where('game_id', $gameId)->where('user_id', auth()->user()->id)->with('User', 'Game')->firstOrFail()) {
+    //         return ['data' => $data];
+    //     }
+    // }
+    //geeft info over de huigide user zijn target weer: player + user info van die game
+    // public function target($gameId)
+    // {
+    //     $targetID = Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->pluck('target_id')[0];
+    //     if ($data = Player::with('User')->findOrFail($targetID)) {
+    //         return ['data' => $data];
+    //     } else {
+    //         return response()->json([
+    //             'message' => 'No target or game found with the IDs: ' . $gameId . $targetID
+    //         ], 404);
+    //     }
+    // }
+    //geeft info over de huigide user zijn killer weer: player + user info van die game
+    // public function killer($gameId)
+    // {
+    //     $killerId = Player::where('user_id', '=', auth()->user()->id)->where('game_id', $gameId)->pluck('killer_id')[0];
+    //     if ($data = Player::with('User')->findOrFail($killerId)) {
+    //         return ['data' => $data];
+    //     }
+    // }
 }

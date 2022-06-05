@@ -40,11 +40,13 @@
                 <p class="col ">Actions</p>
                 @if ($game->status !== 'Started')
                     <div class="d-flex align-items-center">
-                        <form method="post"
-                            action="{{ action('App\Http\Controllers\DashboardController@start', $game->id) }}">
-                            @csrf
-                            <button type="submit" class="btn btn-outline-success btn-icon">Start Game
-                            </button>
+                        @if ($game->status !== 'Finished')
+                            <form method="post"
+                                action="{{ action('App\Http\Controllers\DashboardController@start', $game->id) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-success btn-icon">Start Game
+                                </button>
+                        @endif
                         </form>
                         @if ($game->status === 'Closed')
                             <form method="post"
