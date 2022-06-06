@@ -10,12 +10,12 @@ endpoints:
       - GET
     uri: 'api/games/{id}'
     metadata:
-      title: ''
+      title: 'Retuns a game with all the players and their users.'
       description: ''
       authenticated: true
       custom: []
     headers:
-      Authorization: 'Basic {YOUR_AUTH_KEY}'
+      key: '{YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -23,850 +23,39 @@ endpoints:
         name: id
         description: 'The ID of the game.'
         required: true
-        example: 96739782
+        example: 1
         type: integer
         custom: []
     queryParameters: []
     bodyParameters: []
     responses:
       -
+        status: 200
+        content: '{"data":{"id":1,"name":"inventore","murder_method":"eum ut et","status":"Open","players":[{"id":1,"alias":"Fritz Jenkins","kills":0,"game_id":1,"user_id":1,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":1,"name":"Rosalia Swift III","email":"herman.bogan@example.com","role":"user"}},{"id":2,"alias":"Felipe Beahan","kills":0,"game_id":1,"user_id":2,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":2,"name":"Branson Beer","email":"simeon01@example.com","role":"user"}},{"id":3,"alias":"Afton Flatley","kills":0,"game_id":1,"user_id":3,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":3,"name":"Floyd Mertz","email":"senger.elijah@example.net","role":"user"}},{"id":4,"alias":"Danika Kessler","kills":0,"game_id":1,"user_id":4,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":4,"name":"Mr. Trevion Altenwerth","email":"marcellus76@example.com","role":"user"}},{"id":5,"alias":"Idella Bogan PhD","kills":0,"game_id":1,"user_id":5,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":5,"name":"Edna Walsh","email":"golden61@example.org","role":"user"}},{"id":6,"alias":"Sonia Denesik","kills":0,"game_id":1,"user_id":6,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":6,"name":"Breanna Waters","email":"judy.purdy@example.com","role":"user"}},{"id":7,"alias":"Ibrahim Dare","kills":0,"game_id":1,"user_id":7,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":7,"name":"Percy Kulas","email":"ntillman@example.org","role":"user"}},{"id":8,"alias":"Miss Bianka Lemke IV","kills":0,"game_id":1,"user_id":8,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":8,"name":"Dr. Zita McGlynn PhD","email":"salvatore53@example.org","role":"user"}},{"id":9,"alias":"Blanca Haag","kills":0,"game_id":1,"user_id":9,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":9,"name":"Prof. Eulah Kreiger","email":"little.shirley@example.com","role":"user"}},{"id":10,"alias":"Prof. Judah McClure DVM","kills":0,"game_id":1,"user_id":10,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":10,"name":"Brendan Hane","email":"rubie56@example.com","role":"user"}},{"id":11,"alias":"Catherine Swift II","kills":0,"game_id":1,"user_id":11,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":11,"name":"Amira White DDS","email":"marley20@example.com","role":"user"}},{"id":12,"alias":"Tristian Jast DDS","kills":0,"game_id":1,"user_id":12,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":12,"name":"Mrs. Paige Fisher II","email":"kirk04@example.org","role":"user"}},{"id":13,"alias":"Jace Mitchell","kills":0,"game_id":1,"user_id":13,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":13,"name":"Christophe Sipes MD","email":"henry65@example.com","role":"user"}},{"id":14,"alias":"Dr. Nora Feest Jr.","kills":0,"game_id":1,"user_id":14,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":14,"name":"Chad Morissette IV","email":"vhackett@example.org","role":"user"}},{"id":15,"alias":"Tyler Braun","kills":0,"game_id":1,"user_id":15,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":15,"name":"Dr. Blaise Leannon IV","email":"arvid.mitchell@example.net","role":"user"}},{"id":16,"alias":"Prof. Concepcion Veum","kills":0,"game_id":1,"user_id":16,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":16,"name":"Sabina Bergstrom","email":"yhettinger@example.net","role":"user"}},{"id":17,"alias":"Darrick Lueilwitz","kills":0,"game_id":1,"user_id":17,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":17,"name":"Breanna Miller DDS","email":"sally75@example.org","role":"user"}},{"id":18,"alias":"Agustin Fadel","kills":0,"game_id":1,"user_id":18,"killer_id":null,"target_id":null,"dead":0,"won":0,"user":{"id":18,"name":"Mr. Robb Goldner DDS","email":"johan03@example.com","role":"user"}}]}}'
+        headers: []
+        description: '200'
+      -
         status: 404
-        content: |-
-          {
-              "message": "",
-              "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
-              "file": "/var/www/vendor/laravel/framework/src/Illuminate/Routing/AbstractRouteCollection.php",
-              "line": 43,
-              "trace": [
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Routing/RouteCollection.php",
-                      "line": 162,
-                      "function": "handleMatchedRoute",
-                      "class": "Illuminate\\Routing\\AbstractRouteCollection",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 673,
-                      "function": "match",
-                      "class": "Illuminate\\Routing\\RouteCollection",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 662,
-                      "function": "findRoute",
-                      "class": "Illuminate\\Routing\\Router",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 651,
-                      "function": "dispatchToRoute",
-                      "class": "Illuminate\\Routing\\Router",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
-                      "line": 167,
-                      "function": "dispatch",
-                      "class": "Illuminate\\Routing\\Router",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 128,
-                      "function": "Illuminate\\Foundation\\Http\\{closure}",
-                      "class": "Illuminate\\Foundation\\Http\\Kernel",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
-                      "line": 21,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php",
-                      "line": 31,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 167,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
-                      "line": 21,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php",
-                      "line": 40,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 167,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php",
-                      "line": 27,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 167,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php",
-                      "line": 86,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 167,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/fruitcake/laravel-cors/src/HandleCors.php",
-                      "line": 52,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 167,
-                      "function": "handle",
-                      "class": "Fruitcake\\Cors\\HandleCors",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php",
-                      "line": 39,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 167,
-                      "function": "handle",
-                      "class": "Illuminate\\Http\\Middleware\\TrustProxies",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 103,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
-                      "line": 142,
-                      "function": "then",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
-                      "line": 111,
-                      "function": "sendRequestThroughRouter",
-                      "class": "Illuminate\\Foundation\\Http\\Kernel",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 299,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Kernel",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 287,
-                      "function": "callLaravelOrLumenRoute",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 89,
-                      "function": "makeApiCall",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 45,
-                      "function": "makeResponseCall",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 35,
-                      "function": "makeResponseCallIfConditionsPass",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
-                      "line": 222,
-                      "function": "__invoke",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
-                      "line": 179,
-                      "function": "iterateThroughStrategies",
-                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
-                      "line": 116,
-                      "function": "fetchResponses",
-                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
-                      "line": 123,
-                      "function": "processRoute",
-                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
-                      "line": 80,
-                      "function": "extractEndpointsInfoFromLaravelApp",
-                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
-                      "line": 56,
-                      "function": "extractEndpointsInfoAndWriteToDisk",
-                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php",
-                      "line": 55,
-                      "function": "get",
-                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
-                      "line": 36,
-                      "function": "handle",
-                      "class": "Knuckles\\Scribe\\Commands\\GenerateDocumentation",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Container/Util.php",
-                      "line": 40,
-                      "function": "Illuminate\\Container\\{closure}",
-                      "class": "Illuminate\\Container\\BoundMethod",
-                      "type": "::"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
-                      "line": 93,
-                      "function": "unwrapIfClosure",
-                      "class": "Illuminate\\Container\\Util",
-                      "type": "::"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
-                      "line": 37,
-                      "function": "callBoundMethod",
-                      "class": "Illuminate\\Container\\BoundMethod",
-                      "type": "::"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Container/Container.php",
-                      "line": 653,
-                      "function": "call",
-                      "class": "Illuminate\\Container\\BoundMethod",
-                      "type": "::"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Console/Command.php",
-                      "line": 136,
-                      "function": "call",
-                      "class": "Illuminate\\Container\\Container",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/symfony/console/Command/Command.php",
-                      "line": 298,
-                      "function": "execute",
-                      "class": "Illuminate\\Console\\Command",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Console/Command.php",
-                      "line": 121,
-                      "function": "run",
-                      "class": "Symfony\\Component\\Console\\Command\\Command",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/symfony/console/Application.php",
-                      "line": 1024,
-                      "function": "run",
-                      "class": "Illuminate\\Console\\Command",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/symfony/console/Application.php",
-                      "line": 299,
-                      "function": "doRunCommand",
-                      "class": "Symfony\\Component\\Console\\Application",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/symfony/console/Application.php",
-                      "line": 171,
-                      "function": "doRun",
-                      "class": "Symfony\\Component\\Console\\Application",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Console/Application.php",
-                      "line": 94,
-                      "function": "run",
-                      "class": "Symfony\\Component\\Console\\Application",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php",
-                      "line": 129,
-                      "function": "run",
-                      "class": "Illuminate\\Console\\Application",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/artisan",
-                      "line": 37,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Console\\Kernel",
-                      "type": "->"
-                  }
-              ]
-          }
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          vary: Origin
-        description: null
+        content: '{"message": "That game does not exist: $gameId."}'
+        headers: []
+        description: '404'
+      -
+        status: 403
+        content: '{"message": "Player is not playing in this game: $gameId"}'
+        headers: []
+        description: '403'
     responseFields: []
   -
     httpMethods:
       - POST
     uri: 'api/games/{id}/add'
     metadata:
-      title: ''
+      title: 'Adds a player to the given game.'
       description: ''
       authenticated: true
       custom: []
     headers:
-      Authorization: 'Basic {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the game.'
-        required: true
-        example: 85
-        type: integer
-        custom: []
-    queryParameters: []
-    bodyParameters: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - PATCH
-    uri: 'api/player/{id}/{targetID}'
-    metadata:
-      title: ''
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Basic {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the player.'
-        required: true
-        example: 2
-        type: integer
-        custom: []
-      targetID:
-        name: targetID
-        description: ''
-        required: true
-        example: '88'
-        type: string
-        custom: []
-    queryParameters: []
-    bodyParameters: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - GET
-    uri: api/games
-    metadata:
-      title: 'Retuns a list of all games with their players.'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Basic {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    queryParameters: []
-    bodyParameters: []
-    responses:
-      -
-        status: 200
-        content: |-
-          {
-
-          }
-        headers: []
-        description: '200'
-    responseFields: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/games/{id}/chat'
-    metadata:
-      title: ''
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Basic {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the game.'
-        required: true
-        example: 234
-        type: integer
-        custom: []
-    queryParameters: []
-    bodyParameters: []
-    responses:
-      -
-        status: 404
-        content: |-
-          {
-              "message": "",
-              "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
-              "file": "/var/www/vendor/laravel/framework/src/Illuminate/Routing/AbstractRouteCollection.php",
-              "line": 43,
-              "trace": [
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Routing/RouteCollection.php",
-                      "line": 162,
-                      "function": "handleMatchedRoute",
-                      "class": "Illuminate\\Routing\\AbstractRouteCollection",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 673,
-                      "function": "match",
-                      "class": "Illuminate\\Routing\\RouteCollection",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 662,
-                      "function": "findRoute",
-                      "class": "Illuminate\\Routing\\Router",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-                      "line": 651,
-                      "function": "dispatchToRoute",
-                      "class": "Illuminate\\Routing\\Router",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
-                      "line": 167,
-                      "function": "dispatch",
-                      "class": "Illuminate\\Routing\\Router",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 128,
-                      "function": "Illuminate\\Foundation\\Http\\{closure}",
-                      "class": "Illuminate\\Foundation\\Http\\Kernel",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
-                      "line": 21,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php",
-                      "line": 31,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 167,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
-                      "line": 21,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php",
-                      "line": 40,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 167,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php",
-                      "line": 27,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 167,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php",
-                      "line": 86,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 167,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/fruitcake/laravel-cors/src/HandleCors.php",
-                      "line": 52,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 167,
-                      "function": "handle",
-                      "class": "Fruitcake\\Cors\\HandleCors",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php",
-                      "line": 39,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 167,
-                      "function": "handle",
-                      "class": "Illuminate\\Http\\Middleware\\TrustProxies",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-                      "line": 103,
-                      "function": "Illuminate\\Pipeline\\{closure}",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
-                      "line": 142,
-                      "function": "then",
-                      "class": "Illuminate\\Pipeline\\Pipeline",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
-                      "line": 111,
-                      "function": "sendRequestThroughRouter",
-                      "class": "Illuminate\\Foundation\\Http\\Kernel",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 299,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Http\\Kernel",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 287,
-                      "function": "callLaravelOrLumenRoute",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 89,
-                      "function": "makeApiCall",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 45,
-                      "function": "makeResponseCall",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
-                      "line": 35,
-                      "function": "makeResponseCallIfConditionsPass",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
-                      "line": 222,
-                      "function": "__invoke",
-                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
-                      "line": 179,
-                      "function": "iterateThroughStrategies",
-                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
-                      "line": 116,
-                      "function": "fetchResponses",
-                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
-                      "line": 123,
-                      "function": "processRoute",
-                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
-                      "line": 80,
-                      "function": "extractEndpointsInfoFromLaravelApp",
-                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
-                      "line": 56,
-                      "function": "extractEndpointsInfoAndWriteToDisk",
-                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php",
-                      "line": 55,
-                      "function": "get",
-                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
-                      "line": 36,
-                      "function": "handle",
-                      "class": "Knuckles\\Scribe\\Commands\\GenerateDocumentation",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Container/Util.php",
-                      "line": 40,
-                      "function": "Illuminate\\Container\\{closure}",
-                      "class": "Illuminate\\Container\\BoundMethod",
-                      "type": "::"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
-                      "line": 93,
-                      "function": "unwrapIfClosure",
-                      "class": "Illuminate\\Container\\Util",
-                      "type": "::"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
-                      "line": 37,
-                      "function": "callBoundMethod",
-                      "class": "Illuminate\\Container\\BoundMethod",
-                      "type": "::"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Container/Container.php",
-                      "line": 653,
-                      "function": "call",
-                      "class": "Illuminate\\Container\\BoundMethod",
-                      "type": "::"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Console/Command.php",
-                      "line": 136,
-                      "function": "call",
-                      "class": "Illuminate\\Container\\Container",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/symfony/console/Command/Command.php",
-                      "line": 298,
-                      "function": "execute",
-                      "class": "Illuminate\\Console\\Command",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Console/Command.php",
-                      "line": 121,
-                      "function": "run",
-                      "class": "Symfony\\Component\\Console\\Command\\Command",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/symfony/console/Application.php",
-                      "line": 1024,
-                      "function": "run",
-                      "class": "Illuminate\\Console\\Command",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/symfony/console/Application.php",
-                      "line": 299,
-                      "function": "doRunCommand",
-                      "class": "Symfony\\Component\\Console\\Application",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/symfony/console/Application.php",
-                      "line": 171,
-                      "function": "doRun",
-                      "class": "Symfony\\Component\\Console\\Application",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Console/Application.php",
-                      "line": 94,
-                      "function": "run",
-                      "class": "Symfony\\Component\\Console\\Application",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php",
-                      "line": 129,
-                      "function": "run",
-                      "class": "Illuminate\\Console\\Application",
-                      "type": "->"
-                  },
-                  {
-                      "file": "/var/www/artisan",
-                      "line": 37,
-                      "function": "handle",
-                      "class": "Illuminate\\Foundation\\Console\\Kernel",
-                      "type": "->"
-                  }
-              ]
-          }
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          vary: Origin
-        description: null
-    responseFields: []
-  -
-    httpMethods:
-      - POST
-    uri: 'api/games/{id}/chat'
-    metadata:
-      title: ''
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Basic {YOUR_AUTH_KEY}'
+      key: '{YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -879,19 +68,119 @@ endpoints:
         custom: []
     queryParameters: []
     bodyParameters: []
-    responses: []
+    responses:
+      -
+        status: 201
+        content: '{"message": "The player: alias has been created."}'
+        headers: []
+        description: '201'
+      -
+        status: 404
+        content: '{"message": "That game does not exist: $gameId."}'
+        headers: []
+        description: '404'
+      -
+        status: 403
+        content: '{"message": "You are not allowed to have multiple players in the game from the same user."}'
+        headers: []
+        description: '403'
+      -
+        status: 403
+        content: '{"message": "That game is not accepting players right now."}'
+        headers: []
+        description: '403'
     responseFields: []
   -
     httpMethods:
-      - DELETE
-    uri: 'api/games/{id}/chat/{chatId}'
+      - PATCH
+    uri: 'api/player/{id}/{targetID}'
     metadata:
-      title: ''
+      title: 'Kills a player and gives their target to the killer.'
       description: ''
       authenticated: true
       custom: []
     headers:
-      Authorization: 'Basic {YOUR_AUTH_KEY}'
+      key: '{YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the player.'
+        required: true
+        example: 4
+        type: integer
+        custom: []
+      targetID:
+        name: targetID
+        description: ''
+        required: true
+        example: '8868454'
+        type: string
+        custom: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"message":"Player killed"}'
+        headers: []
+        description: '200'
+      -
+        status: 404
+        content: '{"message": "That game does not exist: $gameId."}'
+        headers: []
+        description: '404'
+      -
+        status: 403
+        content: '{"message": "The game has not started yet or has already finished."}'
+        headers: []
+        description: '403'
+      -
+        status: 403
+        content: '{"message": "You are not allowed to kill this player."}'
+        headers: []
+        description: '403'
+      -
+        status: 404
+        content: '{"message": "The player with id: $targetId does not exist."}'
+        headers: []
+        description: '404'
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: api/games
+    metadata:
+      title: 'Retuns a list of all games with their players.'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      key: '{YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":[{"id":1,"name":"inventore","murder_method":"eum ut et","status":"Open","players":[{"id":1,"alias":"Fritz Jenkins","kills":0,"game_id":1,"user_id":1,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":2,"alias":"Felipe Beahan","kills":0,"game_id":1,"user_id":2,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":3,"alias":"Afton Flatley","kills":0,"game_id":1,"user_id":3,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":4,"alias":"Danika Kessler","kills":0,"game_id":1,"user_id":4,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":5,"alias":"Idella Bogan PhD","kills":0,"game_id":1,"user_id":5,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":6,"alias":"Sonia Denesik","kills":0,"game_id":1,"user_id":6,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":7,"alias":"Ibrahim Dare","kills":0,"game_id":1,"user_id":7,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":8,"alias":"Miss Bianka Lemke IV","kills":0,"game_id":1,"user_id":8,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":9,"alias":"Blanca Haag","kills":0,"game_id":1,"user_id":9,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":10,"alias":"Prof. Judah McClure DVM","kills":0,"game_id":1,"user_id":10,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":11,"alias":"Catherine Swift II","kills":0,"game_id":1,"user_id":11,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":12,"alias":"Tristian Jast DDS","kills":0,"game_id":1,"user_id":12,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":13,"alias":"Jace Mitchell","kills":0,"game_id":1,"user_id":13,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":14,"alias":"Dr. Nora Feest Jr.","kills":0,"game_id":1,"user_id":14,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":15,"alias":"Tyler Braun","kills":0,"game_id":1,"user_id":15,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":16,"alias":"Prof. Concepcion Veum","kills":0,"game_id":1,"user_id":16,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":17,"alias":"Darrick Lueilwitz","kills":0,"game_id":1,"user_id":17,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":18,"alias":"Agustin Fadel","kills":0,"game_id":1,"user_id":18,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":19,"alias":"Jeramy Romaguera","kills":0,"game_id":1,"user_id":19,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":20,"alias":"Mrs. Bettye Barton I","kills":0,"game_id":1,"user_id":20,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":21,"alias":"Rosario Kozey DVM","kills":0,"game_id":1,"user_id":21,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":22,"alias":"Alexandrea Rohan","kills":0,"game_id":1,"user_id":22,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":28,"alias":"zel","kills":0,"game_id":1,"user_id":27,"killer_id":null,"target_id":null,"dead":0,"won":0}]},{"id":2,"name":"Big Boy Game","murder_method":"Give a kiss \ud83d\ude0a","status":"Open","players":[{"id":23,"alias":"XenoxBS","kills":0,"game_id":2,"user_id":24,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":24,"alias":"LuckyLukas","kills":0,"game_id":2,"user_id":23,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":25,"alias":"BigCheese","kills":0,"game_id":2,"user_id":21,"killer_id":null,"target_id":null,"dead":0,"won":0},{"id":26,"alias":"Amelia","kills":0,"game_id":2,"user_id":26,"killer_id":null,"target_id":null,"dead":0,"won":0}]},{"id":3,"name":"dolorum","murder_method":"itaque autem consequatur","status":"Closed","players":[]},{"id":4,"name":"dolore","murder_method":"voluptate error cupiditate","status":"Open","players":[]},{"id":5,"name":"qui","murder_method":"deleniti cupiditate quo","status":"Open","players":[{"id":27,"alias":"Rincewind","kills":0,"game_id":5,"user_id":21,"killer_id":null,"target_id":null,"dead":0,"won":0}]}]}'
+        headers: []
+        description: '200'
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/games/{id}/chat'
+    metadata:
+      title: 'Shows all chat messages from the given game.'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      key: '{YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -899,35 +188,130 @@ endpoints:
         name: id
         description: 'The ID of the game.'
         required: true
-        example: 1
+        example: 27
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":[{"id":34,"send_at":"1971-07-21 17:59:44","message":"molestiae veritatis facere eos nesciunt","game_id":1,"player_id":4,"player":{"id":4,"alias":"Danika Kessler","kills":0,"game_id":1,"user_id":4,"killer_id":null,"target_id":null,"dead":0,"won":0}},{"id":48,"send_at":"1973-05-31 13:44:09","message":"numquam quibusdam dolores sit quis","game_id":1,"player_id":15,"player":{"id":15,"alias":"Tyler Braun","kills":0,"game_id":1,"user_id":15,"killer_id":null,"target_id":null,"dead":0,"won":0}},{"id":47,"send_at":"1973-09-07 04:33:36","message":"ipsa similique illum dignissimos veritatis","game_id":1,"player_id":5,"player":{"id":5,"alias":"Idella Bogan PhD","kills":0,"game_id":1,"user_id":5,"killer_id":null,"target_id":null,"dead":0,"won":0}},{"id":19,"send_at":"1974-01-25 02:06:50","message":"nihil numquam ratione omnis aliquam","game_id":1,"player_id":11,"player":{"id":11,"alias":"Catherine Swift II","kills":0,"game_id":1,"user_id":11,"killer_id":null,"target_id":null,"dead":0,"won":0}},{"id":9,"send_at":"1974-02-05 19:39:28","message":"dolores corrupti unde voluptatum nesciunt","game_id":1,"player_id":7,"player":{"id":7,"alias":"Ibrahim Dare","kills":0,"game_id":1,"user_id":7,"killer_id":null,"target_id":null,"dead":0,"won":0}},{"id":21,"send_at":"1975-03-22 01:16:18","message":"corporis corrupti harum voluptatem ipsa","game_id":1,"player_id":2,"player":{"id":2,"alias":"Felipe Beahan","kills":0,"game_id":1,"user_id":2,"killer_id":null,"target_id":null,"dead":0,"won":0}},{"id":42,"send_at":"1977-03-04 23:15:52","message":"officiis voluptatibus est eveniet aliquid","game_id":1,"player_id":22,"player":{"id":22,"alias":"Alexandrea Rohan","kills":0,"game_id":1,"user_id":22,"killer_id":null,"target_id":null,"dead":0,"won":0}},{"id":28,"send_at":"1977-12-21 12:24:57","message":"aliquam consequatur fuga quis ea","game_id":1,"player_id":21,"player":{"id":21,"alias":"Rosario Kozey DVM","kills":0,"game_id":1,"user_id":21,"killer_id":null,"target_id":null,"dead":0,"won":0}},{"id":36,"send_at":"1978-05-11 06:24:28","message":"dolorem architecto ad corrupti voluptatem","game_id":1,"player_id":8,"player":{"id":8,"alias":"Miss Bianka Lemke IV","kills":0,"game_id":1,"user_id":8,"killer_id":null,"target_id":null,"dead":0,"won":0}}]}'
+        headers: []
+        description: '200'
+      -
+        status: 404
+        content: '{"message": "That game does not exist: $gameId."}'
+        headers: []
+        description: '404'
+      -
+        status: 403
+        content: '{"message": "Player is not playing in this game: $gameId."}'
+        headers: []
+        description: '403'
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: 'api/games/{id}/chat'
+    metadata:
+      title: 'Send a chat message to everyone in the game.'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      key: '{YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the game.'
+        required: true
+        example: 961
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 404
+        content: '{"message": "That game does not exist: $gameId."}'
+        headers: []
+        description: '404'
+      -
+        status: 201
+        content: '{"message": "The chat message: message has been created"}'
+        headers: []
+        description: '201'
+      -
+        status: 403
+        content: '{"message": "Player is not playing in this game: $gameId."}'
+        headers: []
+        description: '403'
+    responseFields: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/games/{id}/chat/{chatId}'
+    metadata:
+      title: 'Delete a chat message from a game, can only be used by users with the role: spelbegeleider or admin.'
+      description: .
+      authenticated: true
+      custom: []
+    headers:
+      key: '{YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the game.'
+        required: true
+        example: 18
         type: integer
         custom: []
       chatId:
         name: chatId
         description: ''
         required: true
-        example: 2
+        example: 10
         type: integer
         custom: []
     queryParameters: []
     bodyParameters: []
-    responses: []
+    responses:
+      -
+        status: 200
+        content: '{"message": "Chat message deleted"}'
+        headers: []
+        description: '200'
+      -
+        status: 403
+        content: '{"message": "You are not allowed to remove chat."}'
+        headers: []
+        description: '403'
     responseFields: []
   -
     httpMethods:
       - POST
     uri: api/user/add
     metadata:
-      title: ''
+      title: 'Creates a new user with the given name and password and email.'
       description: ''
       authenticated: true
       custom: []
     headers:
-      Authorization: 'Basic {YOUR_AUTH_KEY}'
+      key: '{YOUR_AUTH_KEY}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
     queryParameters: []
     bodyParameters: []
-    responses: []
+    responses:
+      -
+        status: 201
+        content: '{"message": "The user: name has been created."}'
+        headers: []
+        description: '201'
     responseFields: []

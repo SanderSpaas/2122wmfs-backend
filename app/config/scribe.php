@@ -185,7 +185,7 @@ return [
          * Add a Try It Out button to your endpoints so consumers can test endpoints right from their browser.
          * Don't forget to enable CORS headers for your endpoints.
          */
-        'enabled' => true,
+        'enabled' => false,
 
         /**
          * The base URL for the API tester to use (for example, you can set this to your staging URL).
@@ -223,12 +223,12 @@ return [
          * Where is the auth value meant to be sent in a request?
          * Options: query, body, basic, bearer, header (for custom header)
          */
-        'in' => 'basic',
+        'in' => 'header',
 
         /*
          * The name of the auth parameter (eg token, key, apiKey) or header (eg Authorization, Api-Key).
          */
-        'name' => 'Cookie',
+        'name' => 'key',
 
         /*
          * The value of the parameter to be used by Scribe to authenticate response calls.
@@ -270,6 +270,8 @@ INTRO
     'example_languages' => [
         'bash',
         'javascript',
+        'php',
+        'python',
     ],
 
     /*

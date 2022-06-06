@@ -21,7 +21,11 @@ use App\Http\Controllers\GamesController;
 Route::group(
     ['middleware' => ['auth:sanctum']],
     function () {
-        //returns the current authenticated user
+        /**
+         * Returns the current authenticated user.
+         * @response {"id":21,"name":"sander","email":"sander.spaas@odisee.be","role":"admin"}
+         * @response 401 {"message":"Unauthenticated."}
+         * */
         Route::get('/user', function (Request $request) {
             return $request->user();
         });
