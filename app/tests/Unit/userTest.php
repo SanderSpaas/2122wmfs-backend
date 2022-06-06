@@ -29,7 +29,7 @@ class userTest extends TestCase
      */
     public function test_stores_new_users()
     {
-      $response = $this->post('api/register',[
+      $response = $this->postJson('api/register',[
           'name' => 'Berend',
           'email' => 'BerendBrokkepap@gmail.be',
           'password' => 'Azerty123',
