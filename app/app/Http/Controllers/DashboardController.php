@@ -99,7 +99,7 @@ class DashboardController extends Controller
         }
         //array met alle id's gaan doorheen schudden
         shuffle($idArray);
-
+        $extraArray = $idArray;
         //alle spelers gaan vastpakken
         foreach ($players as $key => $player) {
             if ($key === 0) {
@@ -113,8 +113,17 @@ class DashboardController extends Controller
                 $player->target_id = $idArray[0];
                 unset($idArray[0]);
             } else {
-                $player->target_id = $idArray[1];
-                unset($idArray[1]);
+                if (array_key_exists(1, $idArray)) {
+                    $player->target_id = $idArray[1];
+                    unset($idArray[1]);
+                } else {
+                    $player->target_id = $extraArray[0];
+                    foreach ($players as $key => $player) {
+                        if ($player->id === $extraArray[0]) {
+                            $player->id = $idArray[0];
+                        }
+                    }
+                }
             }
             //array gaan herindexeren anders werkt het niet
             $idArray = array_values($idArray);
